@@ -18,6 +18,6 @@ This challenge helped me practice the following skills:
 
 Please find the solution links for the case studies below. Simply click on the links to access each solution:
 
-- [Case 1: Danny's Diner](#-case-study-1-dannys-diner)
+- [Case 1: Danny's Diner](README.md#-case-study-1-dannys-diner)
 - Case 2: Pizza Runner
 - Case 3: Foodie-Fi
