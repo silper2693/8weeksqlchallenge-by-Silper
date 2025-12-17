@@ -18,7 +18,7 @@
   - [C. Ingredient Optimisation](#c-ingredient-optimisation)
   - [D. Pricing and Ratings](#d-pizza-metrics)
 - [⭐ Bonus Question](#-bonus-question)
-- To find out more: Click [here](https://8weeksqlchallenge.com/case-study-1/)
+- To find out more: Click [here](https://8weeksqlchallenge.com/case-study-2/)
 
 ## 💡 Business Talk
 <p align="justify">Pizza Runner aims to analyze order and delivery data to evaluate runner performance, delivery efficiency, and customer ordering behavior in order to improve operational efficiency and customer experience.</p>
