@@ -7,7 +7,7 @@
 ## 📌 Table of Contents
 - [💡 Business Talk](#-business-talk)
 - [🔗 Entity Relationship Diagram](#-entity-relationship-diagram)
-- [🧠 Question & Solution](#-question-&-solution)
+- [🧠 Question & Solution](#-question--solution)
 - To find out more: [here](https://8weeksqlchallenge.com/case-study-1/)
 
 ## 💡 Business Talk
