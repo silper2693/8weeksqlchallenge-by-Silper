@@ -19,7 +19,8 @@
 <p align="justify">Foodie-Fi operates as a subscription-based streaming platform, where customers progress through a free trial before converting into paid monthly or annual plans. Understanding customer behaviour, churn, and revenue timing is critical for sustainable growth.</p>
 
 ## 🔗 Entity Relationship Diagram
-<p align="center"><img width="988" height="300" alt="image" src="https://github.com/user-attachments/assets/46c3b60c-d05b-430b-9e9a-b1ec163d5923" /></p>
+<p align="center"><img width="319" height="767" alt="image" src="https://github.com/user-attachments/assets/43e9ae24-c410-4d97-a6b7-85f68d209ec4" />
+</p>
 
 ## 🧠 Question & Solution
 You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/rHJhRrXy5hbVBNJ6F6b9gJ/16) to easily access the example datasets and start solving the SQL questions.
