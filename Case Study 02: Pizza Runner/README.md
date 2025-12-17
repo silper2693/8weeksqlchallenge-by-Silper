@@ -1,4 +1,4 @@
-# 🍕 Case Study #2: Pizza Runner
+# 🍕 Case Study 02: Pizza Runner
 <p align="center"><img width="413" height="413" alt="image" src="https://github.com/user-attachments/assets/7f2d4c74-efc2-4c98-b00d-27807e45641b" /></p>
 <p align="center">Introduction</p>
 <p align="justify">Did you know that over 115 million kilograms of pizza is consumed daily worldwide??? (Well according to Wikipedia anyway…).</p>
