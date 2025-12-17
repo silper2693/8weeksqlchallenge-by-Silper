@@ -263,7 +263,271 @@ ORDER BY runner_id;
 
 ## <p align="center">C. Ingredient Optimisation.</p>
 
+### 1. What are the standard ingredients for each pizza?
+```sql
+SELECT
+  pn.pizza_name
+  ,STRING_AGG(pt.topping_name, ', ' ORDER BY x.toppin) AS topping_name
+FROM pizza_recipes AS pr
+JOIN LATERAL regexp_split_to_table(toppings, ',') AS x(toppin)
+  ON TRUE
+LEFT JOIN pizza_toppings AS pt
+  ON x.toppin::INTEGER = pt.topping_id
+LEFT JOIN pizza_names AS pn
+  ON pr.pizza_id = pn.pizza_id
+GROUP BY pn.pizza_name, pr.toppings;
+```
+### 2. What was the most commonly added extra?
+```sql
+WITH CTE AS (
+  SELECT
+    x.extra_toppin
+  FROM customer_orders
+  JOIN LATERAL regexp_split_to_table(extras, ',') AS x(extra_toppin)
+    ON TRUE
+)
 
+SELECT
+  topping_name
+  ,COUNT(*) AS popular
+FROM CTE
+LEFT JOIN pizza_toppings AS pt
+  ON pt.topping_id = extra_toppin::INTEGER
+WHERE extra_toppin IS NOT NULL
+  AND extra_toppin NOT IN ('','null')
+GROUP BY topping_name
+ORDER BY popular DESC;
+```
+
+### 3. What was the most common exclusion?
+
+replace extra with exclusion in question 2
+
+### 4. Generate an order item for each record in the customers_orders table in the format of one of the following:
+- Meat Lovers
+- Meat Lovers - Exclude Beef
+- Meat Lovers - Extra Bacon
+- Meat Lovers - Exclude Cheese, Bacon - Extra Mushroom, Peppers
+```sql
+SELECT
+  co.order_id
+  ,CASE
+    WHEN pizza_name = 'Meatlovers' THEN '- Meat Lovers'
+    WHEN pizza_name = 'Vegetarian' THEN '- Vegetarian'
+  END||
+  CASE
+    WHEN excl IS NOT NULL THEN ' - Exclude '||excl
+    ELSE ''
+  END||
+  CASE
+    WHEN extr IS NOT NULL THEN ' - Extra '||extr
+    ELSE ''
+  END AS order_item
+FROM customer_orders co
+JOIN pizza_names pn
+		ON co.pizza_id = pn.pizza_id
+
+--Exclusion
+LEFT JOIN LATERAL(
+  SELECT STRING_AGG(pt.topping_name, ', ' ORDER BY pt.topping_name) AS excl
+  FROM regexp_split_to_table(exclusions, ',') AS x(exc)
+LEFT JOIN pizza_toppings pt
+  ON x.exc::INT = pt.topping_id
+WHERE exclusions NOT IN ('', 'null')
+  AND exclusions IS NOT NULL
+) e ON TRUE
+
+--Extra
+LEFT JOIN LATERAL(
+  SELECT STRING_AGG(pt.topping_name, ', ' ORDER BY pt.topping_name ) AS extr
+  FROM regexp_split_to_table(extras, ',') AS x(ext)
+JOIN pizza_toppings pt
+  ON x.ext::INT = pt.topping_id
+WHERE extras NOT IN ('', 'null')
+  AND extras IS NOT NULL
+) x ON TRUE
+ORDER BY 1;
+```
+
+### 5. Generate an alphabetically ordered comma separated ingredient list for each pizza order from the customer_orders table and add a 2x in front of any relevant ingredients
+- For example: "Meat Lovers: 2xBacon, Beef, ... , Salami"
+```sql
+--1. Standardize the data and convert empty values to NULL.
+WITH CTE_1 AS (
+  SELECT
+    ROW_NUMBER() OVER(
+      ORDER BY order_id) AS order_no
+	,co.order_id
+	,co.customer_id
+	,pn.pizza_name
+	,pr.toppings
+	,NULLIF(NULLIF(exclusions, ''), 'null') AS exclusions
+	,NULLIF(NULLIF(extras, ''), 'null') AS extras
+	,co.order_time
+  FROM customer_orders co
+  LEFT JOIN pizza_names pn
+	ON co.pizza_id = pn.pizza_id
+  LEFT JOIN pizza_recipes pr
+	ON co.pizza_id = pr.pizza_id
+)
+
+--2. Remove ingredients listed in exclusions from the recipes.
+, CTE_2 AS (
+  SELECT *
+  FROM CTE_1 c1
+  LEFT JOIN LATERAL(
+    SELECT STRING_AGG(t.toppin, ', ' ORDER BY t.toppin::INT) AS toppings_not_exclude
+	FROM regexp_split_to_table(c1.toppings, ',') AS t(toppin)
+    WHERE t.toppin::INT NOT IN (
+	  SELECT trim(x)::INT
+	  FROM regexp_split_to_table(c1.exclusions, ',') AS x
+	)
+  ) e ON TRUE
+)
+
+--3. Add extras to toppings_not_exclude.
+--3.1. Filter based on two columns.
+, et_base AS (
+  SELECT
+	extras
+	,toppings_not_exclude
+	,order_no
+	,order_id
+	,pizza_name
+  FROM CTE_2
+)
+
+--3.2. Pivot rows into columns for the toppings_not_exclude column.
+, et_1 AS(
+  SELECT
+	order_no
+	,order_id
+	,pizza_name
+	,(trim(x))::INT AS topping
+	,'orig' AS src
+  FROM et_base eb
+  CROSS JOIN LATERAL regexp_split_to_table(eb.toppings_not_exclude, ',') AS x
+)
+
+--3.3. Pivot rows into columns for the extras column.
+, et_2 AS(
+  SELECT
+	order_no
+	,order_id
+	,pizza_name
+	,(trim(x))::INT AS topping
+	,'extra' AS src
+  FROM et_base eb
+  CROSS JOIN LATERAL regexp_split_to_table(eb.extras, ',') AS x
+  WHERE eb.extras IS NOT NULL
+)
+
+--3.4. Combine 2 columns.
+, et_1_2 AS(
+  SELECT * FROM et_1
+  UNION ALL
+  SELECT * FROM et_2
+)
+
+--4. Add 'x2' after any ingredient that appears in both columns.
+--4.1. Count toppings in both columns and map topping_id to topping_name.
+,et_counted AS (
+  SELECT
+    order_no
+    ,order_id
+    ,pizza_name
+    ,topping
+    ,topping_name
+    ,COUNT(*) AS cnt
+  FROM et_1_2 e12
+  LEFT JOIN pizza_toppings pt
+    ON e12.topping = pt.topping_id
+  GROUP BY order_no, topping, topping_name, order_id, pizza_name
+  ORDER BY order_no, topping
+)
+
+--4.2. Combine the topping_names into a single line with 'x2' placed before duplicates.
+, et_final AS (
+  SELECT
+    order_no
+    ,order_id
+    ,pizza_name
+    ,STRING_AGG(
+      CASE 
+        WHEN cnt = 2 THEN 'x2 ' || topping_name
+        ELSE topping_name::text
+      END, ', ' ORDER BY topping_name) AS final_toppings
+  FROM et_counted
+  GROUP BY order_no, order_id, pizza_name
+  ORDER BY order_no
+)
+
+--5. Add the pizza name before the ingredients.
+SELECT
+  order_id
+  ,CASE
+	WHEN pizza_name = 'Meatlovers' THEN 'Meat Lovers: '
+	WHEN pizza_name = 'Vegetarian' THEN 'Vegetarian: '
+  END||final_toppings AS igredien_order_pizza
+FROM et_final ef;
+```
+### 6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+```sql
+WITH CTE_1 AS (
+  SELECT
+    ROW_NUMBER() OVER(
+	  ORDER BY co.order_id) AS order_no
+    ,pr.toppings
+    ,NULLIF(NULLIF(exclusions, ''), 'null') AS exclusions
+    ,NULLIF(NULLIF(extras, ''), 'null') AS extras
+  FROM customer_orders co
+  LEFT JOIN pizza_recipes pr
+    ON co.pizza_id = pr.pizza_id
+)
+
+, CTE_2 AS (
+  SELECT *
+  FROM CTE_1
+  LEFT JOIN LATERAL(
+    SELECT STRING_AGG(t.toppin, ', ' ORDER BY t.toppin::INT) AS t_n_e
+    FROM regexp_split_to_table(toppings, ',') AS t(toppin)
+    WHERE t.toppin::INT NOT IN(
+      SELECT trim(x)::INT
+      FROM regexp_split_to_table(exclusions, ',') AS x
+    )
+  ) e ON TRUE
+)
+
+, CTE_3 AS (
+  SELECT *
+    ,t_n_e||CASE
+      WHEN extras IS NULL THEN ''
+      WHEN extras IS NOT NULL THEN ', '||extras
+      ELSE ''
+    END AS t_n_e_h_x
+  FROM CTE_2
+)
+
+, CTE_4 AS (
+  SELECT
+    order_no
+    ,f.toppin
+    ,topping_name
+  FROM CTE_3 ct3
+  LEFT JOIN LATERAL (
+    SELECT regexp_split_to_table(t_n_e_h_x, ',') AS toppin
+  ) f ON TRUE
+  LEFT JOIN pizza_toppings pt
+    ON f.toppin::INT = pt.topping_id
+)
+
+SELECT
+  topping_name
+  ,COUNT(*)
+FROM CTE_4
+GROUP BY topping_name
+ORDER BY 2
+```
 ## <p align="center">D. Pizza Metrics.</p>
 
 
