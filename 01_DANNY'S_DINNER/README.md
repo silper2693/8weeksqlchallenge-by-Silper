@@ -13,8 +13,19 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 </p>
 
 ## 📌 Table of content
-- [Business Talk](#-case-study-1-dannys-diner)
+- [💡 Business Talk](#-business-talk)
+- [🗂 Entity Relationship Diagram](#-entity-relationship-diagram)
+
 
 ## 💡 Business Talk
 Danny wants to use sales data to understand customer spending behavior, identify popular menu items, and evaluate the impact of the membership program on revenue and customer loyalty.
+
+## 🗂 Entity Relationship Diagram
+
+<p align="justify">
+<img width="745" height="402" alt="image" src="https://github.com/user-attachments/assets/fc09d88f-7e9a-4ee9-be99-9fccc54c085b" />
+</p>
+
+
+
 
