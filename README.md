@@ -1,4 +1,4 @@
-# 8 Week SQL Challenge Solutions ##
+# 8 Week SQL Challenge Solutions
 
 This repository contains my solutions to the [**8 Week SQL Challenge**](https://8weeksqlchallenge.com/) by Danny Ma.
 
