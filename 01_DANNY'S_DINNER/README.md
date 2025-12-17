@@ -12,11 +12,9 @@ Danny seriously loves Japanese food so in the beginning of 2021, he decides to e
 Danny’s Diner is in need of your assistance to help the restaurant stay afloat - the restaurant has captured some very basic data from their few months of operation but have no idea how to use their data to help them run the business.
 </p>
 
-## 🛠️ SQL Skills Used
-- JOIN
-- GROUP BY
-- SUM
-- ORDER BY
+##Table of content
+Business Talk
 
-## 📄 Solution
-All SQL solutions are available in `solution.sql`.
+## Business Talk
+Danny wants to use sales data to understand customer spending behavior, identify popular menu items, and evaluate the impact of the membership program on revenue and customer loyalty.
+
