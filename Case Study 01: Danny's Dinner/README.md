@@ -23,6 +23,8 @@ Or click [here](https://dbdiagram.io/d/608d07e4b29a09603d12edbd)
 
 You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138) to easily access the example datasets and start solving the SQL questions.
 
+<p align="center">Question</p>
+
 ### 1. What is the total amount each customer spent at the restaurant?
 ```sql
 SELECT
@@ -45,7 +47,7 @@ GROUP BY customer_id;
 ```
 ### 3. What was the first item from the menu purchased by each customer?
 ```sql
-WITH base_orders AS (
+WITH CTE AS (
   SELECT
     s.customer_id
     ,s.order_date
@@ -65,7 +67,7 @@ SELECT
   customer_id
   ,order_date
   ,product_name
-FROM base_orders
+FROM CTE
 WHERE order_rank = 1
   AND order_row_num = 1;
 ```
@@ -84,7 +86,7 @@ LIMIT 1;
 ```
 ### 5. Which item was the most popular for each customer?
 ```sql
-WITH base_1 as(
+WITH CTE AS (
   SELECT
     s.customer_id
     ,m.product_name
@@ -105,12 +107,12 @@ SELECT
   customer_id
   ,product_name
   ,times_order
-FROM base_1
+FROM CTE
 WHERE drnk = 1;
 ```
 ### 6. Which item was purchased first by the customer after they became a member?
 ```sql
-WITH CTE as(
+WITH CTE AS (
   SELECT
     s.customer_id
     ,m.product_name
@@ -138,7 +140,7 @@ WHERE rn = 1;
 ### 7. Which item was purchased just before the customer became a member?
 This code may not be fully correct, but strictly following the requirement would result in only a small change from Question 6, so I included customer C to make it more interesting.
 ```sql
-WITH CTE as(
+WITH CTE AS (
   SELECT
     s.customer_id
     ,M.product_name
@@ -164,7 +166,124 @@ FROM CTE
 WHERE rn = 1;
 ```
 ### 8. What is the total items and amount spent for each member before they became a member?
+```sql
+SELECT
+  s.customer_id
+  ,COUNT(s.product_id)
+  ,SUM(price)
+FROM sales AS s
+LEFT JOIN members AS e
+  ON s.customer_id = e.customer_id
+LEFT JOIN menu AS m
+  ON e.product_id = m.product_id
+WHERE order_date < join_date OR join_date is NULL
+GROUP BY s.customer_id
+ORDER BY s.customer_id;
+```
+### 9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+```sql
+WITH CTE AS (
+  SELECT
+    s.customer_id
+    ,m.product_name
+    ,price
+    ,CASE
+      WHEN product_name = 'sushi' THEN price * 20
+      ELSE price * 10
+    END AS customer_point
+  FROM sales AS s
+  LEFT JOIN menu AS m
+    ON s.product_id = m.product_id
+)
 
+SELECT
+  customer_id
+  ,SUM(customer_point) AS customer_point
+FROM CTE
+GROUP BY customer_id
+ORDER BY customer_id
+```
+### 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
+```sql
+WITH CTE AS (
+  SELECT
+    s.customer_id
+    ,s.order_date
+    ,m.product_name
+    ,m.price
+    ,CASE
+      WHEN s.order_date BETWEEN me.join_date AND me.join_date + INTERVAL '6 days'
+        THEN m.price * 20
+      WHEN s.order_date < DATE '2021-02-01' AND m.product_name = 'sushi'
+        THEN m.price * 20
+      WHEN s.order_date < DATE '2021-02-01'
+        THEN m.price * 10
+    END AS c_p
+  FROM sales AS s
+  LEFT JOIN menu AS m
+      ON s.product_id = m.product_id
+  LEFT JOIN members AS me
+      ON s.customer_id = me.customer_id
+)
+
+SELECT
+    customer_id
+    ,SUM(c_p) AS customer_point
+FROM CTE
+GROUP BY customer_id
+ORDER BY customer_id;
+```
+<p align="center">Bonus Question</p>
+
+### Join All The Things.
+```sql
+SELECT
+	s.customer_id
+	,s.order_date
+	,m.product_name
+	,m.price
+	,CASE
+		WHEN order_date < join_date THEN 'N'
+		WHEN order_date >= join_date THEN 'Y'
+		ELSE 'N'
+	END AS member
+FROM sales AS s
+LEFT JOIN menu AS m
+  ON s.product_id = m.product_id
+LEFT JOIN members AS e
+  ON s.customer_id = e.customer_id
+ORDER BY s.customer_id, s.order_date;
+```
+### Rank All The Things.
+```sql
+WITH CTE AS (
+	SELECT
+		s.customer_id
+		,s.order_date
+		,m.product_name
+		,m.price
+		,CASE
+			WHEN order_date < join_date THEN 'N'
+			WHEN order_date >= join_date THEN 'Y'
+			ELSE 'N'
+		END AS member
+	FROM sales AS s
+	LEFT JOIN menu AS m
+    ON s.product_id = m.product_id
+	LEFT JOIN members AS e
+    ON s.customer_id = e.customer_id
+)
+
+SELECT *
+	,CASE 
+		WHEN member = 'N' THEN NULL
+		ELSE RANK() OVER(
+      PARTITION BY customer_id, member
+      ORDER BY order_date)
+	END AS RANK
+FROM CTE
+ORDER BY 1, 2
+``` 
 
 
 
