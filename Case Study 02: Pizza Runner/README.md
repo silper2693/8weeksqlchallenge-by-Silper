@@ -9,6 +9,7 @@
 ## 📌 Table of Contents
 - [💡 Business Talk](#-business-talk)
 - [🔗 Entity Relationship Diagram](#-entity-relationship-diagram)
+- [📊 About the Data](#-)
 - [🧠 Question & Solution](#-question--solution)
 - [⭐ Bonus Question](#-bonus-question)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-1/)
@@ -21,6 +22,23 @@
 <p align="center"><img width="919" height="473" alt="image" src="https://github.com/user-attachments/assets/5f0934ea-4105-4899-8444-4357a3fb2fc4" /></p>
 
 You can also click [here](https://dbdiagram.io/d/5f3e085ccf48a141ff558487) to view the diagram.
+
+## 📊 About the Data
+<p align="justify">I will clean the data only when the question requires working with columns that need cleaning. Therefore, the columns listed below contain inconsistent or incorrectly formatted data and require data cleaning.</p>
+
+### 🔨 Table: customer_orders
+Looking at the customer_orders table below, we can see that there are
+- In the exclusions column, there are missing/ blank spaces ' ' and null values.
+- In the extras column, there are missing/ blank spaces ' ' and null values.
+<p align="center"><img width="1133" height="478" alt="image" src="https://github.com/user-attachments/assets/36d08f08-1411-4de2-88e0-b0cc2d679748" /></p>
+
+### 🔨 Table: runner_orders
+Looking at the runner_orders table below, we can see that there are
+- In pickup_time column, remove nulls and replace with blank space ' '.
+- In distance column, remove "km" and nulls and replace with blank space ' '.
+- In duration column, remove "minutes", "minute" and nulls and replace with blank space ' '.
+- In cancellation column, remove NULL and null and and replace with blank space ' '.
+<p align="center"><img width="1595" height="490" alt="image" src="https://github.com/user-attachments/assets/a9e08a99-112e-4468-b3c6-9e398155760c" /></p>
 
 ## 🧠 Question & Solution
 
