@@ -284,10 +284,3 @@ SELECT *
 FROM CTE
 ORDER BY 1, 2
 ``` 
-
-
-
-
-
-
-
