@@ -1,6 +1,6 @@
 # 🍕 Case Study 02: Pizza Runner
 <p align="center"><img width="413" height="413" alt="image" src="https://github.com/user-attachments/assets/7f2d4c74-efc2-4c98-b00d-27807e45641b" /></p>
-<p align="center">**Introduction**</p>
+<p align="center">Introduction</p>
 <p align="justify">Did you know that over 115 million kilograms of pizza is consumed daily worldwide??? (Well according to Wikipedia anyway…).</p>
 <p align="justify">Danny was scrolling through his Instagram feed when something really caught his eye - “80s Retro Styling and Pizza Is The Future!”</p>
 <p align="justify">Danny was sold on the idea, but he knew that pizza alone was not going to help him get seed funding to expand his new Pizza Empire - so he had one more genius idea to combine with it - he was going to Uberize it - and so Pizza Runner was launched!</p>
