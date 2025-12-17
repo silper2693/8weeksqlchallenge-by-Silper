@@ -97,7 +97,7 @@ FROM customer_orders AS co
 LEFT JOIN pizza_names AS pn
   ON co.pizza_id = pn.pizza_id
 GROUP BY co.customer_id
-ORDER BY co.customer_id
+ORDER BY co.customer_id;
 ```
 ### 6. What was the maximum number of pizzas delivered in a single order?
 ```sql
@@ -107,7 +107,7 @@ SELECT
 FROM customer_orders AS co
 GROUP BY order_id
 ORDER BY max_in_order DESC
-LIMIT 1
+LIMIT 1;
 ```
 ### 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
 ```sql
@@ -127,7 +127,7 @@ SELECT
 	,SUM(CASE WHEN ext IS NOT NULL OR exc IS NOT NULL THEN 1 ELSE 0 END) AS some_change
 FROM CTE
 GROUP BY customer_id
-ORDER BY customer_id
+ORDER BY customer_id;
 ```
 ### 8. How many pizzas were delivered that had both exclusions and extras?
 ```sql
@@ -142,7 +142,7 @@ WITH CTE AS (
 
 SELECT *
 FROM CTE
-WHERE exc IS NOT NULL AND ext IS NOT NULL
+WHERE exc IS NOT NULL AND ext IS NOT NULL;
 ```
 ### 9. What was the total volume of pizzas ordered for each hour of the day?
 ```sql
@@ -151,7 +151,7 @@ SELECT
   ,COUNT(order_id) AS volume_order
 FROM customer_orders
 GROUP BY hour_in_day
-ORDER BY hour_in_day
+ORDER BY hour_in_day;
 ```
 ### 10. What was the volume of orders for each day of the week?
 ```sql
@@ -159,15 +159,112 @@ SELECT
   TO_CHAR(order_time, 'Dy') AS day_of_week
   ,COUNT(order_id)
 FROM customer_orders
+GROUP BY 1;
+```
+## <p align="center">b. Runner and Customer Experience.</p>
+
+### 1. How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+```sql
+SELECT 
+  FLOOR((registration_date::DATE - DATE '2021-01-01') / 7) + 1
+  ,COUNT(*) AS runner_signups
+FROM runners
 GROUP BY 1
+ORDER BY 1;
+```
+### 2. What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+```sql
+WITH CTE AS (
+  SELECT *
+	,CASE WHEN pickup_time = 'null' THEN NULL ELSE pickup_time::timestamp END AS pckp_tm
+  FROM runner_orders AS ro
+  LEFT JOIN customer_orders AS co
+    ON ro.order_id = co.order_id
+)
+
+SELECT
+  AVG(pckp_tm - order_time) AS average_time
+FROM CTE
+WHERE pckp_tm IS NOT NULL;
+```
+### 3. Is there any relationship between the number of pizzas and how long the order takes to prepare?
+```sql
+WITH CTE AS (
+  SELECT
+	co.order_time
+	,COUNT(co.order_id) AS order_volume
+	,AVG(pickup_time::TIMESTAMP - order_time) AS prep_time
+  FROM customer_orders AS co
+  LEFT JOIN runner_orders AS ro
+    ON co.order_id = ro.order_id
+  WHERE pickup_time <> 'null'
+  GROUP BY co.order_time
+)
+
+SELECT
+  order_volume
+  ,DATE_TRUNC('MINUTE', AVG(prep_time)) AS avg_prep_per_volume
+FROM CTE
+GROUP BY order_volume;
+```
+### 4. What was the average distance travelled for each customer?
+```sql
+WITH CTE AS (
+  SELECT
+	customer_id
+	,AVG(REGEXP_REPLACE(distance, '[^0-9\.]', '', 'g')::numeric) AS avg_dis
+  FROM runner_orders AS ro
+  LEFT JOIN customer_orders AS co
+    ON co.order_id = ro.order_id
+  WHERE distance <> 'null'
+  GROUP BY 1
+)
+
+SELECT
+  customer_id
+  ,TO_CHAR(avg_dis, 'FM99.#')
+FROM CTE;
+```
+### 5. What was the difference between the longest and shortest delivery times for all orders?
+```sql
+SELECT
+    MAX(clean_duration) - MIN(clean_duration) AS time_diff
+FROM (
+    SELECT
+        REGEXP_REPLACE(duration, '[^0-9\.]', '', 'g')::numeric AS clean_duration
+    FROM runner_orders
+    WHERE duration <> 'null'
+) t;
+```
+### 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
+```sql
+SELECT
+  DISTINCT(co.order_id)
+  ,co.customer_id
+  ,runner_id
+  ,REGEXP_REPLACE(distance, '[^0-9\.]', '', 'g')::numeric AS dista
+  ,REGEXP_REPLACE(duration, '[^0-9\.]', '', 'g')::numeric AS durat
+  ,ROUND(REGEXP_REPLACE(distance, '[^0-9\.]', '', 'g')::numeric / (REGEXP_REPLACE(duration, '[^0-9\.]', '', 'g')::numeric / 60), 2) AS speed
+FROM runner_orders AS ro
+LEFT JOIN customer_orders AS co
+  ON co.order_id = ro.order_id
+WHERE distance <> 'null'
+ORDER BY 1;
+```
+### 7. What is the successful delivery percentage for each runner?
+```sql
+SELECT
+  runner_id
+  ,100 * SUM(CASE WHEN distance <> 'null' THEN 1 ELSE 0 END) / COUNT (*) AS success_perc
+FROM runner_orders 
+GROUP BY runner_id
+ORDER BY runner_id;
 ```
 
+## <p align="center">c. Ingredient Optimisation.</p>
 
 
-
-
-
-
+## <p align="center">d. Pizza Metrics.</p>
 
 
 
