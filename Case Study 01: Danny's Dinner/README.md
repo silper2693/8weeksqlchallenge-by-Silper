@@ -233,7 +233,7 @@ FROM CTE
 GROUP BY customer_id
 ORDER BY customer_id;
 ```
-<p align="center">Bonus Question</p>
+###<p align="center">Bonus Question</p>
 
 ### Join All The Things.
 ```sql
