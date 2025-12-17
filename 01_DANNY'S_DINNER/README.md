@@ -12,6 +12,7 @@
 - [💡 Business Talk](#-business-talk)
 - [🔗 Entity Relationship Diagram](#-entity-relationship-diagram)
 
+To find out more: [here](https://8weeksqlchallenge.com/case-study-1/)
 
 ## 💡 Business Talk
 Danny wants to use sales data to understand customer spending behavior, identify popular menu items, and evaluate the impact of the membership program on revenue and customer loyalty.
