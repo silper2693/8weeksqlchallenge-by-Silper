@@ -1,6 +1,7 @@
 # 8 Week SQL Challenge Solutions ##
 
-This repository contains my solutions to the **8 Week SQL Challenge** by Danny Ma.
+This repository contains my solutions to the [**8 Week SQL Challenge**](https://8weeksqlchallenge.com/) by Danny Ma.
+A special thanks to [Data with Danny](https://www.linkedin.com/company/datawithdanny/) for creating these insightful and engaging SQL case studies! 👋🏻
 
 ## 🧠 Skills Practiced
 - SQL Joins
@@ -10,6 +11,9 @@ This repository contains my solutions to the **8 Week SQL Challenge** by Danny M
 - Business Analysis
 
 ## 📂 Case Studies
+
+Please find the solution links for the case studies below. Simply click on the links to access each solution.
+
 - [Case 1: Danny's Diner](#-case-study-1-dannys-diner)
 - Case 2: Pizza Runner
 - Case 3: Foodie-Fi
