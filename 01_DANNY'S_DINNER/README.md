@@ -64,18 +64,101 @@ FROM base_orders
 WHERE order_rank = 1
   AND order_row_num = 1;
 ```
+### 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
+```sql
+SELECT
+  m.product_id
+  ,product_name
+  ,COUNT(order_date) AS times
+FROM sales AS s
+INNER JOIN menu AS m
+  ON S.product_id = M.product_id
+GROUP BY m.product_id, product_name
+ORDER BY times DESC
+LIMIT 1;
+```
+### 5. Which item was the most popular for each customer?
+```sql
+WITH base_1 as(
+  SELECT
+    s.customer_id
+    ,m.product_name
+    ,COUNT(product_name) AS times_order
+    ,DENSE_RANK() OVER(
+      PARTITION BY customer_id 
+      ORDER BY COUNT(product_name) DESC) AS drnk
+    ,ROW_NUMBER() OVER(
+      PARTITION BY customer_id
+      ORDER BY COUNT(product_name) DESC) as rn
+  FROM sales AS s
+  LEFT JOIN menu AS m
+    ON s.product_id = m.product_id
+  GROUP BY s.customer_id, m.product_name
+)
 
+SELECT
+  customer_id
+  ,product_name
+  ,times_order
+FROM base_1
+WHERE drnk = 1;
+```
+### 6. Which item was purchased first by the customer after they became a member?
+```sql
+WITH CTE as(
+  SELECT
+    s.customer_id
+    ,m.product_name
+    ,order_date
+    ,join_date
+    ,ROW_NUMBER() OVER(
+      PARTITION BY s.customer_id
+      ORDER BY order_date ASC) as rn
+  FROM sales AS s
+  LEFT JOIN members AS e
+    ON s.customer_id = e.customer_id
+  LEFT JOIN menu AS m 
+    ON s.product_id = m.product_id
+  WHERE order_date > join_date
+)
 
-
-
-
-
-
-
-
-
-
-
+SELECT
+  customer_id
+  ,product_name
+  ,order_date
+  ,join_date
+FROM CTE
+WHERE rn = 1;
+```
+### 7. Which item was purchased just before the customer became a member?
+This code may not be fully correct, but strictly following the requirement would result in only a small change from Question 6, so I included customer C to make it more interesting.
+```sql
+WITH CTE as(
+  SELECT
+    s.customer_id
+    ,M.product_name
+    ,order_date
+    ,join_date
+    ,ROW_NUMBER() OVER(
+      PARTITION BY s.customer_id
+      ORDER BY order_date DESC) AS rn
+  FROM sales AS s
+  LEFT JOIN members AS e
+    ON s.customer_id = e.customer_id
+  LEFT JOIN menu as M
+    ON s.product_id = m.product_id
+  WHERE order_date < join_date
+    OR join_date IS NULL
+)
+SELECT
+  customer_id
+  ,product_name
+  ,order_date
+  ,join_date
+FROM CTE
+WHERE rn = 1;
+```
+### 8. What is the total items and amount spent for each member before they became a member?
 
 
 
