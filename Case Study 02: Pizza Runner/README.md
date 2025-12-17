@@ -297,7 +297,7 @@ GROUP BY topping_name
 ORDER BY popular DESC;
 ```
 ### 3. What was the most common exclusion?
-"replace extra with exclusion in question 2"
+Solution: Replace extra with exclusion in question 2
 ### 4. Generate an order item for each record in the customers_orders table in the format of one of the following:
 - Meat Lovers
 - Meat Lovers - Exclude Beef
@@ -661,4 +661,4 @@ GROUP BY 1;
 ## ⭐ Bonus Question
 If Danny wants to expand his range of pizzas - how would this impact the existing data design? Write an INSERT statement to demonstrate what would happen if a new Supreme pizza with all the toppings was added to the Pizza Runner menu?
 
-"Danny can easily expand the menu without changing the existing schema. Adding a new pizza only requires inserting a new record into pizza_names and mapping its toppings in pizza_recipes. This demonstrates that the current data model is flexible and scalable for new products."
+Solution: Danny can easily expand the menu without changing the existing schema. Adding a new pizza only requires inserting a new record into pizza_names and mapping its toppings in pizza_recipes. This demonstrates that the current data model is flexible and scalable for new products.
