@@ -1,4 +1,4 @@
-# 🍕 Case Study 02: Pizza Runner
+# 🥑 Case Study 03: Foodie-Fi
 <p align="center"><img width="413" height="413" alt="image" src="https://github.com/user-attachments/assets/0430d15b-e1b3-4dcb-8467-8c119a6758a0" /></p>
 <p align="center">Introduction</p>
 <p align="justify">Subscription based businesses are super popular and Danny realised that there was a large gap in the market - he wanted to create a new streaming service that only had food related content - something like Netflix but with only cooking shows!</p>
@@ -12,8 +12,7 @@
   - [A. Customer Journey](#a-customer-journey)
   - [B. Data Analysis Questions](#b-data-analysis-question)
   - [C. Challenge Payment Question](#c-challenge-payment-question)
-  - [D. Outside The Box Questions](#d-outside-the-box-question)
-- [⭐ Bonus Question](#-bonus-question)
+  - [D. Outside The Box Questions](#d-outside-the-box-questions)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-3/)
 
 ## 💡 Business Talk
