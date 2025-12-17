@@ -9,10 +9,14 @@
 ## 📌 Table of Contents
 - [💡 Business Talk](#-business-talk)
 - [🔗 Entity Relationship Diagram](#-entity-relationship-diagram)
-- [📊 About the Data](#-)
+- [📊 About the Data](#-about-the-data)
+  - [🔨 Table: customer_orders]()
+  - [🔨 Table: runner_orders]()
 - [🧠 Question & Solution](#-question--solution)
   - [A. Pizza Metrics](#a-pizza-metrics)
-  - 
+  - [B. Runner and Customer Experience]()
+  - [C. Ingredient Optimisation]()
+  - [D. Pricing and Ratings]()
 - [⭐ Bonus Question](#-bonus-question)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-1/)
 
