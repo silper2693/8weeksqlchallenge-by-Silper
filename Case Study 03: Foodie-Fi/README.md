@@ -16,7 +16,7 @@
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-3/)
 
 ## 💡 Business Talk
-<p align="justify">Foodie-Fi operates as a subscription-based streaming platform, where customers progress through a free trial before converting into paid monthly or annual plans.Understanding customer behaviour, churn, and revenue timing is critical for sustainable growth.</p>
+<p align="justify">Foodie-Fi operates as a subscription-based streaming platform, where customers progress through a free trial before converting into paid monthly or annual plans. Understanding customer behaviour, churn, and revenue timing is critical for sustainable growth.</p>
 
 ## 🔗 Entity Relationship Diagram
 <p align="center"><img width="988" height="300" alt="image" src="https://github.com/user-attachments/assets/46c3b60c-d05b-430b-9e9a-b1ec163d5923" /></p>
@@ -27,6 +27,7 @@ You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/rHJhRrXy5hbVBNJ
 ## <p align="center">A. Customer Journey.</p>
 Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
+
 We will use this table. This is Table 2
 <p align="center"><img width="407" height="980" alt="image" src="https://github.com/user-attachments/assets/ad406979-619e-4965-9e6f-c8aa66f0edb4" /></p>
 
