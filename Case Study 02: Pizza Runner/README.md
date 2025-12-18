@@ -30,7 +30,7 @@
 You can also click [here](https://dbdiagram.io/d/5f3e085ccf48a141ff558487) to view the diagram.
 
 ## 📊 About the Data
-<p align="justify">The data in this case study contains a few tables that are not fully standardized. There are quite a lot of empty fields, including both string values like 'null' and actual NULLs, as well as leftover measurement units attached to some numeric values while missing in others. However, since I find this quite realistic, I decided to keep the data as is. I will clean the data only when the question requires working with columns that need cleaning. Therefore, the columns listed below contain inconsistent or incorrectly formatted data and require data cleaning. This approach helps me build the habit of checking and cleaning the data first before starting any data analysis or querying.</p>
+<p align="justify">The data in this case study is not fully standardized and contains empty fields and inconsistent formats. To reflect real-world scenarios, I only clean the data when required by a question. This helps me build the habit of validating and cleaning data before analysis.</p>
 
 ### 🔨 Table: customer_orders
 Looking at the customer_orders table below, we can see that there are
