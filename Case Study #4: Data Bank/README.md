@@ -163,36 +163,24 @@ ORDER BY txn_month;
 ```sql
 WITH CTE AS (
   SELECT
-  	customer_id
-    ,DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day' AS txn_month
-    ,txn_type
-    ,txn_amount
-    ,CASE
-      WHEN txn_type = 'deposit' THEN '+' || txn_amount
-      WHEN txn_type IN ('purchase', 'withdrawal') THEN '-' || txn_amount
-      ELSE ''
-    END AS sign_amount
-  FROM customer_transactions
-)
-
-, CTE_2 AS (
-  SELECT
-    txn_month::DATE
+    DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day' AS txn_month
     ,customer_id
-    ,STRING_AGG(sign_amount, ' ') AS operation_amount
-  FROM CTE
-  GROUP BY txn_month, customer_id
+    ,SUM(CASE
+      WHEN txn_type = 'deposit' THEN txn_amount
+      ELSE -txn_amount
+    END) AS net_amount
+  FROM customer_transactions
+  GROUP BY DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day', customer_id
 )
 
 SELECT
-  txn_month
+  txn_month::DATE
   ,customer_id
-  ,SUM(val[1]::INT) AS closing_balance
-FROM CTE_2
-LEFT JOIN LATERAL regexp_matches(operation_amount, '[+-]\s*\d+', 'g') AS x(val)
-  ON TRUE
-GROUP BY txn_month, customer_id
-ORDER BY customer_id, txn_month;
+  ,SUM(net_amount) OVER(
+    PARTITION BY customer_id
+    ORDER BY txn_month
+  ) AS closing_balance
+FROM CTE
 ```
 5.What is the percentage of customers who increase their closing balance by more than 5%?
 ```sql
