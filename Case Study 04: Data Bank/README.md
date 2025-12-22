@@ -1,4 +1,4 @@
-# 💰 Case Study 04: Data Bank
+# 💰 Case Study #4: Data Bank
 <p align="center"><img width="413" height="413" alt="image" src="https://github.com/user-attachments/assets/0b4c8a9b-7ce9-4664-923e-f2691a3d29f2" /></p>
 <p align="center">Introduction</p>
 <p align="justify">There is a new innovation in the financial industry called Neo-Banks: new aged digital only banks without physical branches.</p>
