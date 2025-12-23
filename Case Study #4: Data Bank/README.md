@@ -182,7 +182,75 @@ SELECT
   ) AS closing_balance
 FROM CTE
 ```
-5.What is the percentage of customers who increase their closing balance by more than 5%?
+### 5.What is the percentage of customers who increase their closing balance by more than 5%?
+
+Since Danny did not require the customers’ account balances to be greater than 0, my solution presents two scenarios:
+- Including customers with negative balances that increase either to a positive balance or to a higher (less negative) balance
+- Including only customers with positive balances, or those whose balances increase from negative to positive
+
+From the beginning up to CTE_2, I will use the query from question 4.
 ```sql
-coming soon 😘
+WITH CTE AS (
+  SELECT
+    DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day' AS txn_month
+    ,customer_id
+    ,SUM(CASE
+      WHEN txn_type = 'deposit' THEN txn_amount
+      ELSE -txn_amount
+    END) AS net_amount
+  FROM customer_transactions
+  GROUP BY DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day', customer_id
+)
+
+, CTE_2 AS (
+SELECT
+  txn_month::DATE
+  ,customer_id
+  ,SUM(net_amount) OVER(
+    PARTITION BY customer_id
+    ORDER BY txn_month
+  ) AS closing_balance
+FROM CTE
+)
+```
+Question 5 start here.
+1. Find the previous month’s balance.
+```sql
+, CTE_3 AS (
+  SELECT *
+    ,LAG(closing_balance) OVER(
+      PARTITION BY customer_id
+      ORDER BY txn_month) AS prev_closing_balance
+  FROM CTE_2
+  -- WHERE closing_balance = 0
+)
+```
+2. Types of balance conditions.
+```sql
+, CTE_4 AS (
+  SELECT *
+    ,CASE
+  -- Both balances are positive.
+      WHEN closing_balance > 0 AND prev_closing_balance > 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 / prev_closing_balance, 2)
+
+  -- When the prev is negative and closing is positive, the balance has increased; however, the formula needs to include the ABS() (absolute value) function to produce the correct result.
+      WHEN closing_balance > 0 AND prev_closing_balance < 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 / ABS(prev_closing_balance), 2)
+
+  -- Both balances are negative, but since the previous balance is lower than the closing balance, it means the balance has increased, so it should still be counted.
+      WHEN prev_closing_balance < closing_balance AND closing_balance < 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 * -1 / prev_closing_balance, 2)
+
+  -- When the prev is 0 and the closing is greater than 0, the calculation will be incorrect due to a division-by-zero error. In some cases, an increase from 0 to a positive number cannot yield a percentage result, but since this represents a customer account balance, I will assume it as a 100% increase.
+      WHEN prev_closing_balance = 0 AND closing_balance > 0 THEN 100
+
+      ELSE NULL
+    END AS percentage
+  FROM CTE_3
+  WHERE prev_closing_balance IS NOT NULL
+)
+
+SELECT
+  COUNT(DISTINCT customer_id) * 100 / (SELECT COUNT(DISTINCT customer_id) FROM customer_transactions) AS mom_balance_growth_pct
+FROM CTE_4
+WHERE percentage IS NOT NULL
+  AND percentage > 5
 ```
