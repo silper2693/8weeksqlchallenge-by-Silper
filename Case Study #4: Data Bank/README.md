@@ -222,7 +222,7 @@ Question 5 start here.
       PARTITION BY customer_id
       ORDER BY txn_month) AS prev_closing_balance
   FROM CTE_2
-  -- WHERE closing_balance = 0
+
 )
 ```
 2. Types of balance conditions.
@@ -230,18 +230,24 @@ Question 5 start here.
 , CTE_4 AS (
   SELECT *
     ,CASE
-  -- Both balances are positive.
+```
+Both balances are positive.
+```sql
       WHEN closing_balance > 0 AND prev_closing_balance > 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 / prev_closing_balance, 2)
-
-  -- When the prev is negative and closing is positive, the balance has increased; however, the formula needs to include the ABS() (absolute value) function to produce the correct result.
+```
+When the prev is negative and closing is positive, the balance has increased; however, the formula needs to include the ABS() (absolute value) function to produce the correct result.
+```sql
       WHEN closing_balance > 0 AND prev_closing_balance < 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 / ABS(prev_closing_balance), 2)
-
-  -- Both balances are negative, but since the previous balance is lower than the closing balance, it means the balance has increased, so it should still be counted.
+```
+Both balances are negative, but since the previous balance is lower than the closing balance, it means the balance has increased, so it should still be counted.
+```sql
       WHEN prev_closing_balance < closing_balance AND closing_balance < 0 THEN ROUND((closing_balance - prev_closing_balance) * 100 * -1 / prev_closing_balance, 2)
-
-  -- When the prev is 0 and the closing is greater than 0, the calculation will be incorrect due to a division-by-zero error. In some cases, an increase from 0 to a positive number cannot yield a percentage result, but since this represents a customer account balance, I will assume it as a 100% increase.
+```
+When the prev is 0 and the closing is greater than 0, the calculation will be incorrect due to a division-by-zero error. In some cases, an increase from 0 to a positive number cannot yield a percentage result, but since this represents a customer account balance, I will assume it as a 100% increase.
+```sql
       WHEN prev_closing_balance = 0 AND closing_balance > 0 THEN 100
-
+```
+```sql
       ELSE NULL
     END AS percentage
   FROM CTE_3
