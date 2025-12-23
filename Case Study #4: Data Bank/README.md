@@ -231,23 +231,23 @@ Question 5 start here.
   SELECT *
     ,CASE
 ```
-c1. Both balances are positive.
+ case1. Both balances are positive.
 ```sql
       WHEN closing_balance > 0 AND prev_closing_balance > 0
       THEN ROUND((closing_balance - prev_closing_balance) * 100 / prev_closing_balance, 2)
 ```
-c2. When the prev is negative and closing is positive, the balance has increased; however, the formula needs to include the ABS() (absolute value) function to produce the correct result.
+ case2. When the prev is negative and closing is positive, the balance has increased; however, the formula needs to include the ABS() (absolute value) function to produce the correct result.
 ```sql
       WHEN closing_balance > 0 AND prev_closing_balance < 0
       THEN ROUND((closing_balance - prev_closing_balance) * 100 / ABS(prev_closing_balance), 2)
 ```
-c3. When the prev is 0 and the closing is greater than 0, the calculation will be incorrect due to a division-by-zero error. In some cases, an increase from 0 to a positive number cannot yield a percentage result, but since this represents a customer account balance, I will assume it as a 100% increase.
+ case3. When the prev is 0 and the closing is greater than 0, the calculation will be incorrect due to a division-by-zero error. In some cases, an increase from 0 to a positive number cannot yield a percentage result, but since this represents a customer account balance, I will assume it as a 100% increase.
 ```sql
       WHEN prev_closing_balance = 0
         AND closing_balance > 0
       THEN 100
 ```
-c4. Both balances are negative, but since the previous balance is lower than the closing balance, it means the balance has increased, so it should still be counted.
+ case4. Both balances are negative, but since the previous balance is lower than the closing balance, it means the balance has increased, so it should still be counted.
 ```sql
       WHEN prev_closing_balance < closing_balance
         AND closing_balance < 0
@@ -267,5 +267,5 @@ FROM CTE_4
 WHERE percentage IS NOT NULL
   AND percentage > 5
 ```
-If calculated using approach 1, all four cases are retained and the rate is 67.4%.
-If calculated using approach 2, case 4 is excluded and the rate is 50.4%.
+- If calculated using approach 1, all four cases are retained and the rate is 67.4%.
+- If calculated using approach 2, case 4 is excluded and the rate is 50.4%.
