@@ -252,8 +252,7 @@ c4. Both balances are negative, but since the previous balance is lower than the
       WHEN prev_closing_balance < closing_balance
         AND closing_balance < 0
       THEN ROUND((closing_balance - prev_closing_balance) * 100 * -1 / prev_closing_balance, 2)
-```
-```sql
+--done :)
       ELSE NULL
     END AS percentage
   FROM CTE_3
