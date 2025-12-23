@@ -259,9 +259,11 @@ c4. Both balances are negative, but since the previous balance is lower than the
   FROM CTE_3
   WHERE prev_closing_balance IS NOT NULL
 )
-
+```
+3. Filter out customers with growth ≤ 5% and calculate the proportion of customers.
+```sql
 SELECT
-  COUNT(DISTINCT customer_id) * 100 / (SELECT COUNT(DISTINCT customer_id) FROM customer_transactions) AS mom_balance_growth_pct
+  COUNT(DISTINCT customer_id) * 100 / (SELECT COUNT(DISTINCT customer_id) FROM customer_transactions) AS mon_balance_growth_pct
 FROM CTE_4
 WHERE percentage IS NOT NULL
   AND percentage > 5
