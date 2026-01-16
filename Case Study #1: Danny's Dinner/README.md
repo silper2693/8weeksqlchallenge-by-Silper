@@ -78,7 +78,7 @@ SELECT
   ,COUNT(order_date) AS times
 FROM sales AS s
 INNER JOIN menu AS m
-  ON S.product_id = M.product_id
+  ON S.product_id = m.product_id
 GROUP BY m.product_id, product_name
 ORDER BY times DESC
 LIMIT 1;
