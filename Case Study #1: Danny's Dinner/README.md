@@ -16,7 +16,7 @@
 <p align="justify">The insights suggest opportunities to improve loyalty programs, optimize the menu, and increase repeat visits.</p>
 
 ## 🔗 Entity Relationship Diagram
-<p align="center"><img width="706" height="357" alt="image" src="https://github.com/user-attachments/assets/72565f79-fe6d-43f2-8a99-440dbb5c9cf8" /></p>
+<p align="center"><img width="764" height="161" alt="image" src="https://github.com/user-attachments/assets/3ee370eb-115d-4c4f-b457-4a597922100b" /></p>
 
 You can also click [here](https://dbdiagram.io/d/608d07e4b29a09603d12edbd) to view the diagram.
 
