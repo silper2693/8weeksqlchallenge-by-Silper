@@ -25,7 +25,7 @@
 
 
 ## 🔗 Entity Relationship Diagram
-<p align="center"><img width="919" height="473" alt="image" src="https://github.com/user-attachments/assets/5f0934ea-4105-4899-8444-4357a3fb2fc4" /></p>
+<p align="center"><img width="804" height="426" alt="image" src="https://github.com/user-attachments/assets/5dd5c02b-3531-4ec1-9e58-28cc79744d78" /></p>
 
 You can also click [here](https://dbdiagram.io/d/5f3e085ccf48a141ff558487) to view the diagram.
 
