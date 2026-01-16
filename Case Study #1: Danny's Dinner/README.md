@@ -211,23 +211,23 @@ WITH CTE AS (
     ,m.product_name
     ,m.price
     ,CASE
-      WHEN s.order_date BETWEEN me.join_date AND me.join_date + INTERVAL '6 days'
-        THEN m.price * 20
-      WHEN s.order_date < DATE '2021-02-01' AND m.product_name = 'sushi'
-        THEN m.price * 20
-      WHEN s.order_date < DATE '2021-02-01'
-        THEN m.price * 10
-    END AS c_p
+      WHEN s.order_date BETWEEN join_date AND join_date + INTERVAL '6 days' THEN m.price * 20
+      WHEN s.order_date < join_date OR s.order_date > join_date + INTERVAL '6 days' THEN
+        CASE WHEN product_name = 'sushi' THEN price * 20 ELSE price * 10 END
+      ELSE 0
+    END AS count_point
   FROM sales AS s
   LEFT JOIN menu AS m
-      ON s.product_id = m.product_id
+    ON s.product_id = m.product_id
   LEFT JOIN members AS me
-      ON s.customer_id = me.customer_id
+    ON s.customer_id = me.customer_id
+  WHERE order_date < '2021-02-01'
+    AND s.customer_id <> 'C'
 )
 
 SELECT
     customer_id
-    ,SUM(c_p) AS customer_point
+    ,SUM(count_point) AS customer_point
 FROM CTE
 GROUP BY customer_id
 ORDER BY customer_id;
