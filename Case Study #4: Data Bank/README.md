@@ -288,47 +288,81 @@ Using all of the data available - how much data would have been required for eac
 WITH CTE AS (
   SELECT *
     ,SUM(CASE
-      WHEN txn_type = 'withdrawal' THEN txn_amount
-      ELSE -txn_amount END) OVER(
-        PARTITION BY customer_id
-        ORDER BY txn_date
-        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-    ) AS running_balance
-    ,DATE_TRUNC('month', txn_date) + INTERVAL '1 month' - INTERVAL '1 day' AS txn_month
+      WHEN txn_type = 'deposit' THEN txn_amount
+      ELSE -txn_amount
+    END) OVER(
+      PARTITION BY customer_id
+      ORDER BY txn_date) AS month_end_balance
+    ,DATE_TRUNC('month', txn_date)::DATE AS txn_month
   FROM customer_transactions
-
 )
 
-,CTE_2 AS (
-  SELECT
-    customer_id
-    ,txn_date
-    ,txn_month::DATE
-    ,running_balance
-    ,LAST_VALUE(running_balance) OVER (
-      PARTITION BY customer_id, DATE_TRUNC('month', txn_date)
-      ORDER BY txn_date
-      ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
-    ) AS month_end_balance
+, CTE_2 AS (
+  SELECT *
+    ,ROW_NUMBER() OVER(
+      PARTITION BY customer_id, txn_month
+      ORDER BY txn_date DESC) AS rn
+  FROM CTE
+)
+
+, CTE_3 AS (
+  SELECT *
+    ,MIN(month_end_balance) OVER(
+      PARTITION BY customer_id, txn_month) AS min_balance
+    ,MAX(month_end_balance) OVER(
+      PARTITION BY customer_id, txn_month) AS max_balance
+    ,ROUND(AVG(month_end_balance) OVER(
+      PARTITION BY customer_id, txn_month), 2) AS avg_balance
+  FROM CTE_2
+)
+
+SELECT
+  customer_id
+  ,txn_month
+  ,month_end_balance
+  ,min_balance
+  ,max_balance
+  ,avg_balance
+FROM CTE_3
+WHERE rn = 1
+ORDER BY customer_id, txn_month;
+```
+
+### Option 2
+```sql
+WITH CTE AS (
+  SELECT *
+    ,SUM(
+      CASE
+        WHEN txn_type = 'deposit' THEN txn_amount
+        ELSE -txn_amount
+      END) OVER(
+        PARTITION BY customer_id
+        ORDER BY txn_date) AS running_balance
+    ,DATE_TRUNC('month', txn_date)::DATE AS txn_month
+  FROM customer_transactions
+)
+
+, CTE_2 AS (
+  SELECT *
+    ,ROUND(
+      AVG(running_balance) OVER(
+        PARTITION BY customer_id
+        ORDER BY txn_date
+        RANGE BETWEEN INTERVAL '30 days' PRECEDING AND CURRENT ROW), 2) AS avg_30d_balance
   FROM CTE
 )
 
 SELECT
   customer_id
   ,txn_date
-  ,txn_month
-  ,running_balance
-  ,month_end_balance
-  ,MIN(running_balance) OVER(
-    PARTITION BY customer_id, txn_month
-    ORDER BY txn_date) AS min_balance
-  ,ROUND(AVG(running_balance) OVER(
-    PARTITION BY customer_id, txn_month
-    ORDER BY txn_date),1) AS avg_balance
-  ,MAX(running_balance) OVER(
-    PARTITION BY customer_id, txn_month
-    ORDER BY txn_date) AS max_balance
+  ,avg_30d_balance
+  ,MIN(avg_30d_balance) OVER(
+    PARTITION BY customer_id, txn_month) AS min_avg_30d_balance
+  ,MAX(avg_30d_balance) OVER(
+    PARTITION BY customer_id, txn_month) AS max_avg_30d_balance
+  ,ROUND(AVG(avg_30d_balance) OVER(
+    PARTITION BY customer_id, txn_month), 2) AS avg_avg_30d_balance
 FROM CTE_2
-GROUP BY 1, 2, 3, 4, 5
-ORDER BY 1, 2;
+ORDER BY customer_id, txn_date;
 ```
