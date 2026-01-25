@@ -367,7 +367,7 @@ SELECT
 FROM CTE_2
 ORDER BY customer_id, txn_date;
 ```
-Data required per month: 1 balance/ customer/ month. A little more accurate than option 1
+Data required per month: 1 balance/ customer/ month. A little more accurate than option 1.
 
 ### Option 3
 ```sql
@@ -394,7 +394,7 @@ FROM CTE
 GROUP BY customer_id, txn_month
 ORDER BY customer_id, txn_month
 ```
-Data required per month: 1 balance/ transaction. Largest, most storage & compute intensive, most accurate in real-time
+Data required per month: 1 balance/ transaction. Largest, most storage & compute intensive, most accurate in real-time.
 
 Options 1 and 2 require significantly less data, as only one balance record per customer is stored each month. In contrast, Option 3 requires storing a balance for every transaction, resulting in substantially higher data requirements on a monthly basis.
 
