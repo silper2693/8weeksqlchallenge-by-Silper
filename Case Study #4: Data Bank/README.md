@@ -327,6 +327,7 @@ FROM CTE_3
 WHERE rn = 1
 ORDER BY customer_id, txn_month;
 ```
+Data required per month: 1 balance/ customer/ month. Does not reflect fluctuations during the month.
 
 ### Option 2
 ```sql
@@ -366,10 +367,36 @@ SELECT
 FROM CTE_2
 ORDER BY customer_id, txn_date;
 ```
+Data required per month: 1 balance/ customer/ month. A little more accurate than option 1
+
 ### Option 3
 ```sql
-commin soon
+WITH CTE AS (
+  SELECT *
+    ,SUM(
+      CASE
+        WHEN txn_type = 'deposit' THEN txn_amount
+        ELSE -txn_amount
+      END) OVER(
+        PARTITION BY customer_id
+        ORDER BY txn_date) AS running_balance
+    ,DATE_TRUNC('month', txn_date)::DATE AS txn_month
+  FROM customer_transactions
+)
+
+SELECT
+  customer_id
+  ,txn_month
+  ,MIN(running_balance) AS min_balance
+  ,MAX(running_balance) AS max_balance
+  ,ROUND(AVG(running_balance), 2) AS avg_balance
+FROM CTE
+GROUP BY customer_id, txn_month
+ORDER BY customer_id, txn_month
 ```
+Data required per month: 1 balance/ transaction. Largest, most storage & compute intensive, most accurate in real-time
+
+Options 1 and 2 require significantly less data, as only one balance record per customer is stored each month. In contrast, Option 3 requires storing a balance for every transaction, resulting in substantially higher data requirements on a monthly basis.
 
 ## <p align="center">D. Extra Challenge.</p>
 
