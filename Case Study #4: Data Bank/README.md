@@ -392,14 +392,36 @@ SELECT
   ,ROUND(AVG(running_balance), 2) AS avg_balance
 FROM CTE
 GROUP BY customer_id, txn_month
-ORDER BY customer_id, txn_month
+ORDER BY customer_id, txn_month;
 ```
 Data required per month: 1 balance/ transaction. Largest, most storage & compute intensive, most accurate in real-time.
-
-Options 1 and 2 require significantly less data, as only one balance record per customer is stored each month. In contrast, Option 3 requires storing a balance for every transaction, resulting in substantially higher data requirements on a monthly basis.
 
 ## <p align="center">D. Extra Challenge.</p>
 
 Data Bank wants to try another option which is a bit more difficult to implement - they want to calculate data growth using an interest calculation, just like in a traditional savings account you might have with a bank.
 
 If the annual interest rate is set at 6% and the Data Bank team wants to reward its customers by increasing their data allocation based off the interest calculated on a daily basis at the end of each day, how much data would be required for this option on a monthly basis?
+
+Option 1 – Month-end balance
+
+Pros:
+This option is simple to implement and requires minimal data storage, as only one balance record per customer is stored each month. It is computationally efficient and low cost.
+
+Cons:
+The month-end balance may not accurately represent customer behaviour throughout the month and can be easily distorted by transactions occurring near the month end.
+
+Option 2 – 30-day average balance
+
+Pros:
+This option provides a more representative view of customer behaviour by smoothing daily balance fluctuations. It remains data-efficient, requiring only one balance record per customer per month, while offering improved accuracy over Option 1.
+
+Cons:
+The calculation logic is more complex than Option 1 and the balances are not updated in real time.
+
+Option 3 – Real-time balance
+
+Pros:
+This option offers the most accurate and up-to-date representation of customer balances by updating balances in real time for every transaction.
+
+Cons:
+It requires significantly more data storage and computational resources, as a balance must be stored for every transaction, making it costly and unnecessary for monthly data allocation purposes.
