@@ -35,7 +35,7 @@ In a single query, perform the following operations and generate a new table in 
 - Add a month_number with the calendar month for each week_date value as the 3rd column
 - Add a calendar_year column as the 4th column containing either 2018, 2019 or 2020 values
 - Add a new column called age_band after the original segment column using the following mapping on the number inside the segment value
-<p align="center"><img width="354" height="248" alt="image" src="https://github.com/user-attachments/assets/1be1e5f7-dafa-4907-a4fd-e8880ceeb8c9" /></p>
+<p align="center"><img width="283" height="198" alt="image" src="https://github.com/user-attachments/assets/1be1e5f7-dafa-4907-a4fd-e8880ceeb8c9" /></p>
 - Add a new demographic column using the following mapping for the first letter in the segment values:
 <p align="center"><img width="290" height="154" alt="image" src="https://github.com/user-attachments/assets/09293ba7-359a-4585-ab15-81367879e5ae" /></p>
 - Ensure all null string values with an "unknown" string value in the original segment column as well as the new age_band and demographic columns
