@@ -14,8 +14,8 @@
 - [🧠 Question & Solution](#-question--solution)
   - [A. Data Cleansing Steps](#a-data-cleansing-steps)
   - [B. Data Exploration](#b-data-exploration)
-  - [C. Before & After Analysis](#c-before-after-analysis)
-  - [](#d-bonus-question)
+  - [C. Before & After Analysis](#c-before--after-analysis)
+  - [D. Bonus Question](#d-bonus-question)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-5/)
 
 ## 💡 Business Talk
