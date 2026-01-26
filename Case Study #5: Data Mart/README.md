@@ -15,7 +15,7 @@
   - [A. Data Cleansing Steps](#a-data-cleansing-steps)
   - [B. Data Exploration](#b-data-exploration)
   - [C. Before & After Analysis](#c-before-after-analysis)
-  - [D. Bonus Question](#d-bonus-question)
+  - [](#d-bonus-question)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-5/)
 
 ## 💡 Business Talk
@@ -26,3 +26,13 @@
 
 ## 🧠 Question & Solution
 You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/jmnwogTsUE8hGqkZv9H7E8/8) to easily access the example datasets and start solving the SQL questions.
+
+## <p align="center">A. Data Cleansing Steps.</p>
+
+## <p align="center">B. Data Exploration.</p>
+
+## <p align="center">C. Before & After Analysis.</p>
+
+## <p align="center">D. Bonus Question.</p>
+
+### 1. How many unique nodes are there on the Data Bank system?
