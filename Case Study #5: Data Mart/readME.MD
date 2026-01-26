@@ -14,8 +14,8 @@
 - [🧠 Question & Solution](#-question--solution)
   - [A. Data Cleansing Steps](#a-data-cleansing-steps)
   - [B. Data Exploration](#b-data-exploration)
-  - [C. Data Allocation Challenge](#c-data-allocation-challenge)
-  - [D. Extra Challenge](#d-extra-challenge)
+  - [C. Before & After Analysis](#c-before-after-analysis)
+  - [D. Bonus Question](#d-bonus-question)
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-5/)
 
 ## 💡 Business Talk
@@ -25,4 +25,4 @@
 <p align="center"><img width="308" height="310" alt="image" src="https://github.com/user-attachments/assets/5c906098-b9b8-43de-888a-c493d32587d3" /></p>
 
 ## 🧠 Question & Solution
-You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/2GtQz4wZtuNNu7zXH5HtV4/3) to easily access the example datasets and start solving the SQL questions.
+You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/jmnwogTsUE8hGqkZv9H7E8/8) to easily access the example datasets and start solving the SQL questions.
