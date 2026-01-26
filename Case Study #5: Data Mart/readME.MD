@@ -19,11 +19,10 @@
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-5/)
 
 ## 💡 Business Talk
-<p align="justify">By aggregating customer transactions at a monthly level, Data Bank can better understand cash flow behavior, identify high-value active customers, and proactively manage churn and liquidity risk.</p>
+<p align="justify">The analysis indicates that the introduction of sustainable packaging did not result in a significant negative impact on overall sales. While minor declines were observed in certain segments and platforms, transaction volumes remained largely stable, suggesting consistent customer demand. Variations across regions and platforms imply that differences are more likely driven by implementation factors rather than the packaging change itself. Overall, the initiative appears to be strategically sound, with opportunities for further optimization at the segment level.</p>
 
 ## 🔗 Entity Relationship Diagram
-<p align="center"><img width="791" height="218" alt="image" src="https://github.com/user-attachments/assets/a6690638-bb35-4ed0-852a-3a64aafd727d" />
-</p>
+<p align="center"><img width="308" height="310" alt="image" src="https://github.com/user-attachments/assets/5c906098-b9b8-43de-888a-c493d32587d3" /></p>
 
 ## 🧠 Question & Solution
 You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/2GtQz4wZtuNNu7zXH5HtV4/3) to easily access the example datasets and start solving the SQL questions.
