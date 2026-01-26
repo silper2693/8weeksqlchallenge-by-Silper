@@ -1,12 +1,12 @@
 # 💰 Case Study #5: Data Mart
-<p align="center">https://8weeksqlchallenge.com/images/case-study-designs/5.png</p>
+<p align="center"></p>
 <p align="center">Introduction</p>
 
-Data Mart is Danny’s latest venture and after running international operations for his online supermarket that specialises in fresh produce - Danny is asking for your support to analyse his sales performance.
+<p align="justify">Data Mart is Danny’s latest venture and after running international operations for his online supermarket that specialises in fresh produce - Danny is asking for your support to analyse his sales performance.</p>
 
-In June 2020 - large scale supply changes were made at Data Mart. All Data Mart products now use sustainable packaging methods in every single step from the farm all the way to the customer.
+<p align="justify">In June 2020 - large scale supply changes were made at Data Mart. All Data Mart products now use sustainable packaging methods in every single step from the farm all the way to the customer.</p>
 
-Danny needs your help to quantify the impact of this change on the sales performance for Data Mart and it’s separate business areas. 
+<p align="justify">Danny needs your help to quantify the impact of this change on the sales performance for Data Mart and it’s separate business areas.</p>
 
 ## 📌 Table of Contents
 - [💡 Business Talk](#-business-talk)
