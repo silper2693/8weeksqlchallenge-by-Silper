@@ -120,16 +120,40 @@ GROUP BY 1;
 ```
 ### 6. What is the percentage of sales for Retail vs Shopify for each month?
 ```sql
-
+SELECT
+  calendar_year
+  ,month_number
+  ,platform
+  ,ROUND(
+    SUM(sales) * 100 / SUM(SUM(sales)) OVER(
+      PARTITION BY calendar_year, month_number), 2) AS pct_sales
+FROM data_mart.data_clean
+GROUP BY calendar_year, month_number, platform
+ORDER BY calendar_year, month_number, platform;
 ```
 ### 7. What is the percentage of sales by demographic for each year in the dataset?
 ```sql
-
+SELECT
+  calendar_year
+  ,demographic
+  ,ROUND(
+    SUM(sales) *100 / SUM(SUM(sales)) OVER(
+      PARTITION BY calendar_year), 2) AS pct_demog_sale
+FROM data_mart.data_clean
+GROUP BY calendar_year, demographic
+ORDER BY calendar_year, demographic;
 ```
 ### 8. Which age_band and demographic values contribute the most to Retail sales?
 ```sql
-
+SELECT
+  segment
+  ,SUM(sales)
+FROM data_mart.data_clean
+WHERE platform = 'Retail'
+GROUP BY 1
+ORDER BY 2 DESC
 ```
+Firsr row is 'unknown' so second row is 'F3'. Retirees and Families is top contributor
 ### 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
 ```sql
 
@@ -145,8 +169,17 @@ We would include all week_date values for 2020-06-15 as the start of the period 
 Using this analysis approach - answer the following questions:
 
 ### 1. What is the total sales for the 4 weeks before and after 2020-06-15? What is the growth or reduction rate in actual values and percentage of sales?
+```sql
+
+```
 ### 2. What about the entire 12 weeks before and after?
+```sql
+
+```
 ### 3. How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
+```sql
+
+```
 
 ## <p align="center">D. Bonus Question.</p>
 
