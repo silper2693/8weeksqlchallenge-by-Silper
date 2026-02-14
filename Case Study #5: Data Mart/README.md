@@ -42,8 +42,7 @@ In a single query, perform the following operations and generate a new table in 
 - Generate a new avg_transaction column as the sales value divided by transactions rounded to 2 decimal places for each record
 
 ```sql
-DROP TABLE IF EXISTS clean_data;
-CREATE TEMP TABLE clean_data AS (
+CREATE TABLE data_mart.clean_data AS
   SELECT
     TO_DATE(week_date, 'dd-mm-yy') AS week_date
     ,CASE
@@ -57,26 +56,25 @@ CREATE TEMP TABLE clean_data AS (
     ,region
     ,platform
     ,CASE
-      WHEN segment IS NULL OR segment LIKE 'null' THEN 'unknown'
+      WHEN segment IS NULL OR segment = 'null' THEN 'unknown'
       ELSE segment
     END AS segment
     ,CASE
-      WHEN RIGHT(segment, 1) LIKE '1' THEN 'Young Adults'
-      WHEN RIGHT(segment, 1) LIKE '2' THEN 'Middle Aged'
+      WHEN RIGHT(segment, 1) = '1' THEN 'Young Adults'
+      WHEN RIGHT(segment, 1) = '2' THEN 'Middle Aged'
       WHEN RIGHT(segment, 1) IN ('3', '4') THEN 'Retirees'
       ELSE 'unknown'
     END AS age_band
     ,CASE
-      WHEN LEFT(segment, 1) LIKE 'C' THEN 'Couples'
-      WHEN LEFT(segment, 1) LIKE 'F' THEN 'Families'
+      WHEN LEFT(segment, 1) = 'C' THEN 'Couples'
+      WHEN LEFT(segment, 1) = 'F' THEN 'Families'
       ELSE 'unknown'
     END AS demographic
     ,customer_type
     ,transactions
     ,sales
     ,ROUND(sales::NUMERIC / transactions::NUMERIC, 2) AS avg_transaction
-  FROM data_mart.weekly_sales
-);
+  FROM data_mart.weekly_sales;
 ```  
 ## <p align="center">B. Data Exploration.</p>
 
@@ -88,7 +86,7 @@ Weekend
 ```sql
 SELECT week_dat3
   ,EXTRACT(week FROM week_dat3)
-FROM base_data
+FROM clean_data
 GROUP BY 1
 ORDER BY 1;
 Miss 1 - 12 and 37 - 52
@@ -98,7 +96,7 @@ Miss 1 - 12 and 37 - 52
 SELECT
   EXTRACT(YEAR FROM week_dat3)
   ,SUM(transactions)
-FROM base_data
+FROM clean_data
 GROUP BY 1
 ORDER BY 1;
 ```
@@ -108,7 +106,7 @@ SELECT
   region
   ,DATE_TRUNC('month', week_dat3)::DATE AS month_year
   ,SUM(sales) AS total_net_sales
-FROM base_data
+FROM clean_data
 GROUP BY 1, 2
 ORDER BY 1, 2;
 ```
@@ -117,7 +115,7 @@ ORDER BY 1, 2;
 SELECT
   platform
   ,SUM(transactions)
-FROM base_data
+FROM clean_data
 GROUP BY 1;
 ```
 ### 6. What is the percentage of sales for Retail vs Shopify for each month?
