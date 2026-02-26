@@ -42,39 +42,35 @@ In a single query, perform the following operations and generate a new table in 
 - Generate a new avg_transaction column as the sales value divided by transactions rounded to 2 decimal places for each record
 
 ```sql
-CREATE TABLE data_mart.clean_data AS
-  SELECT
-    TO_DATE(week_date, 'dd-mm-yy') AS week_date
-    ,CASE
-      WHEN EXTRACT(DAY FROM TO_DATE(week_date, 'dd-mm-yy'))::INT <= 7 THEN 1
-      WHEN EXTRACT(DAY FROM TO_DATE(week_date, 'dd-mm-yy'))::INT <= 14 THEN 2
-      WHEN EXTRACT(DAY FROM TO_DATE(week_date, 'dd-mm-yy'))::INT <= 21 THEN 3
-      WHEN EXTRACT(DAY FROM TO_DATE(week_date, 'dd-mm-yy'))::INT > 21 THEN 4
-    END AS week_number
-    ,TO_CHAR(TO_DATE(week_date, 'dd-mm-yy'), 'mm') AS month_number
-    ,TO_CHAR(TO_DATE(week_date, 'dd-mm-yy'), 'yyyy') AS calendar_year
-    ,region
-    ,platform
-    ,CASE
-      WHEN segment IS NULL OR segment = 'null' THEN 'unknown'
-      ELSE segment
-    END AS segment
-    ,CASE
-      WHEN RIGHT(segment, 1) = '1' THEN 'Young Adults'
-      WHEN RIGHT(segment, 1) = '2' THEN 'Middle Aged'
-      WHEN RIGHT(segment, 1) IN ('3', '4') THEN 'Retirees'
-      ELSE 'unknown'
-    END AS age_band
-    ,CASE
-      WHEN LEFT(segment, 1) = 'C' THEN 'Couples'
-      WHEN LEFT(segment, 1) = 'F' THEN 'Families'
-      ELSE 'unknown'
-    END AS demographic
-    ,customer_type
-    ,transactions
-    ,sales
-    ,ROUND(sales::NUMERIC / transactions::NUMERIC, 2) AS avg_transaction
-  FROM data_mart.weekly_sales;
+DROP TABLE IF EXISTS clean_data;
+CREATE TEMP TABLE clean_data AS 
+
+SELECT
+  TO_DATE(week_date, 'dd-mm-yy') AS week_date
+  ,DATE_PART('week', TO_DATE(week_date, 'dd-mm-yy')) AS week_number
+  ,DATE_PART('month', TO_DATE(week_date, 'dd-mm-yy')) AS month_number
+  ,DATE_PART('year', TO_DATE(week_date, 'dd-mm-yy')) AS calendar_year
+  ,region
+  ,platform
+  ,CASE
+    WHEN segment IS NULL OR segment = 'null' THEN 'unknown'
+    ELSE segment END AS segment
+  ,CASE
+    WHEN RIGHT(segment, 1) = '1' THEN 'Young Adults'
+    WHEN RIGHT(segment, 1) = '2' THEN 'Middle Aged'
+    WHEN RIGHT(segment, 1) IN ('3', '4') THEN 'Retirees'
+    ELSE 'unknown'
+  END AS age_band
+  ,CASE
+    WHEN LEFT(segment, 1) = 'C' THEN 'Couples'
+    WHEN LEFT(segment, 1) = 'F' THEN 'Families'
+    ELSE 'unknown'
+  END AS demographic
+  ,customer_type
+  ,transactions
+  ,sales
+  ,ROUND(sales::NUMERIC / transactions::NUMERIC, 2) AS avg_transaction
+FROM data_mart.weekly_sales;
 ```  
 ## <p align="center">B. Data Exploration.</p>
 
@@ -86,8 +82,8 @@ FROM clean_data;
 Monday is used for the `week_date` value.
 ### 2. What range of week numbers are missing from the dataset?
 ```sql
-SELECT week_dat3
-  ,EXTRACT(week FROM week_dat3)
+SELECT week_date
+  ,EXTRACT(week FROM week_date)
 FROM clean_data
 GROUP BY 1
 ORDER BY 1;
@@ -96,7 +92,7 @@ Miss 1 - 12 and 37 - 52
 ### 3. How many total transactions were there for each year in the dataset?
 ```sql
 SELECT
-  EXTRACT(YEAR FROM week_dat3)
+  EXTRACT(YEAR FROM week_date)
   ,SUM(transactions)
 FROM clean_data
 GROUP BY 1
@@ -106,7 +102,7 @@ ORDER BY 1;
 ```sql
 SELECT
   region
-  ,DATE_TRUNC('month', week_dat3)::DATE AS month_year
+  ,DATE_TRUNC('month', week_date)::DATE AS month_year
   ,SUM(sales) AS total_net_sales
 FROM clean_data
 GROUP BY 1, 2
@@ -129,7 +125,7 @@ SELECT
   ,ROUND(
     SUM(sales) * 100 / SUM(SUM(sales)) OVER(
       PARTITION BY calendar_year, month_number), 2) AS pct_sales
-FROM data_mart.data_clean
+FROM clean_data
 GROUP BY calendar_year, month_number, platform
 ORDER BY calendar_year, month_number, platform;
 ```
@@ -141,7 +137,7 @@ SELECT
   ,ROUND(
     SUM(sales) *100 / SUM(SUM(sales)) OVER(
       PARTITION BY calendar_year), 2) AS pct_demog_sale
-FROM data_mart.data_clean
+FROM clean_data
 GROUP BY calendar_year, demographic
 ORDER BY calendar_year, demographic;
 ```
@@ -150,7 +146,7 @@ ORDER BY calendar_year, demographic;
 SELECT
   segment
   ,SUM(sales)
-FROM data_mart.data_clean
+FROM clean_data
 WHERE platform = 'Retail'
 GROUP BY 1
 ORDER BY 2 DESC
