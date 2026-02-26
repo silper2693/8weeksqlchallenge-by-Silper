@@ -80,8 +80,10 @@ CREATE TABLE data_mart.clean_data AS
 
 ### 1. What day of the week is used for each week_date value?
 ```sql
-Weekend
+SELECT DISTINCT(TO_CHAR(week_date, 'day')) AS week_day 
+FROM clean_data;
 ```
+Monday is used for the `week_date` value.
 ### 2. What range of week numbers are missing from the dataset?
 ```sql
 SELECT week_dat3
@@ -89,8 +91,8 @@ SELECT week_dat3
 FROM clean_data
 GROUP BY 1
 ORDER BY 1;
-Miss 1 - 12 and 37 - 52
 ```
+Miss 1 - 12 and 37 - 52
 ### 3. How many total transactions were there for each year in the dataset?
 ```sql
 SELECT
@@ -153,7 +155,7 @@ WHERE platform = 'Retail'
 GROUP BY 1
 ORDER BY 2 DESC
 ```
-Firsr row is 'unknown' so second row is 'F3'. Retirees and Families is top contributor
+First row is 'unknown' so second row is 'F3'. Retirees and Families is top contributor
 ### 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
 ```sql
 
