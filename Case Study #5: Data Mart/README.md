@@ -205,13 +205,13 @@ GROUP BY calendar_year, platform
 ORDER BY calendar_year, platform;
 ```
 
-calendar_year |	platform |	avg_transaction_collumn |	transaction_collumn
+| calendar_year |	platform |	avg_transaction_collumn |	transaction_collumn |
 |----------|----------|----------|----------|
-2018 |	Retail |	43 |	36
-2018 |	Shopify |	188 |	192
-2019 |	Retail |	42 |	36
-2019 |	Shopify |	178 |	183
-2020 |	Retail |	41 |	36
+| 2018 |	Retail |	43 |	36 |
+| 2018 |	Shopify |	188 |	192 |
+| 2019 |	Retail |	42 |	36 |
+| 2019 |	Shopify |	178 |	183 |
+| 2020 |	Retail |	41 |	36 |
 
 ## <p align="center">C. Before & After Analysis.</p>
 
