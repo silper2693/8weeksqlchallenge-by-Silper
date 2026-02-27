@@ -196,11 +196,11 @@ SUM(sales) / SUM(transactions)
 This ensures the result reflects the true weighted average transaction size.
 ```sql
 SELECT 
-  calendar_year, 
-  platform, 
-  ROUND(AVG(avg_transaction),0) AS avg_transaction_row, 
-  SUM(sales) / sum(transactions) AS avg_transaction_group
-FROM clean_weekly_sales
+  calendar_year
+  ,platform, 
+  ,ROUND(AVG(avg_transaction),0) AS avg_transaction_collum
+  ,SUM(sales) / sum(transactions) AS transaction_collum
+FROM clean_data
 GROUP BY calendar_year, platform
 ORDER BY calendar_year, platform;
 ```
