@@ -197,13 +197,22 @@ This ensures the result reflects the true weighted average transaction size.
 ```sql
 SELECT 
   calendar_year
-  ,platform, 
-  ,ROUND(AVG(avg_transaction),0) AS avg_transaction_collum
-  ,SUM(sales) / sum(transactions) AS transaction_collum
+  ,platform
+  ,ROUND(AVG(avg_transaction),0) AS avg_transaction_collumn
+  ,SUM(sales) / sum(transactions) AS transaction_collumn
 FROM clean_data
 GROUP BY calendar_year, platform
 ORDER BY calendar_year, platform;
 ```
+
+calendar_year |	platform |	avg_transaction_collumn |	transaction_collumn
+|----------|----------|----------|----------|
+2018 |	Retail |	43 |	36
+2018 |	Shopify |	188 |	192
+2019 |	Retail |	42 |	36
+2019 |	Shopify |	178 |	183
+2020 |	Retail |	41 |	36
+
 ## <p align="center">C. Before & After Analysis.</p>
 
 This technique is usually used when we inspect an important event and want to inspect the impact before and after a certain point in time.
