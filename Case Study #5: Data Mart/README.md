@@ -129,6 +129,25 @@ FROM clean_data
 GROUP BY calendar_year, month_number, platform
 ORDER BY calendar_year, month_number, platform;
 ```
+OR
+```sql
+SELECT
+  calendar_year
+  ,month_number
+  ,ROUND( 100.0 * SUM(
+    CASE
+      WHEN platform = 'Retail' THEN sales
+      ELSE NULL
+    END) / SUM(sales), 2) AS retail_sales
+  ,ROUND( 100.0 * SUM(
+    CASE
+      WHEN platform = 'Shopify' THEN sales
+      ELSE NULL
+    END) / SUM(sales), 2) AS shopify_sales
+FROM clean_data
+GROUP BY calendar_year, month_number
+ORDER BY calendar_year, month_number;
+```
 ### 7. What is the percentage of sales by demographic for each year in the dataset?
 ```sql
 SELECT
@@ -153,8 +172,37 @@ ORDER BY 2 DESC
 ```
 First row is 'unknown' so second row is 'F3'. Retirees and Families is top contributor
 ### 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
-```sql
 
+The `avg_transaction` column is not suitable for calculating yearly average transaction size because it is already a pre-aggregated metric. Taking AVG(avg_transaction) would result in an average of averages, which can distort the true value when transaction counts differ across records. Instead, the metric should be recalculated using the base measures: SUM(sales) / SUM(transactions). This approach ensures the result reflects the correct weighted average transaction value for each year and platform.
+
+For example:
+| avg_transaction | transactions |
+|----------|----------|
+| 10  | 100  |
+| 20  | 10  |
+
+If we simply take the average:
+
+(10 + 20) / 2 = 15 ❌
+
+However, the correct weighted average should consider the number of transactions:
+
+(10 * 100 + 20 * 10) / 110 = 10.91 ✔
+
+Therefore, the correct way to calculate the metric is:
+
+SUM(sales) / SUM(transactions)
+
+This ensures the result reflects the true weighted average transaction size.
+```sql
+SELECT 
+  calendar_year, 
+  platform, 
+  ROUND(AVG(avg_transaction),0) AS avg_transaction_row, 
+  SUM(sales) / sum(transactions) AS avg_transaction_group
+FROM clean_weekly_sales
+GROUP BY calendar_year, platform
+ORDER BY calendar_year, platform;
 ```
 ## <p align="center">C. Before & After Analysis.</p>
 
