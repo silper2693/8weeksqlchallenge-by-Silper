@@ -228,11 +228,16 @@ Using this analysis approach - answer the following questions:
 SELECT
   SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END) AS before_1506
   ,SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) AS after_1506
+  ,SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END) - SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) AS absolute_change
+  ,100 - (100.0 * SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) / SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END)) AS percentage_change
 FROM clean_data
 ```
-| before_1506 |	after_1506 |
-|---|---|
-| 6721008962 |	6700563473 |
+Total sales for the 4 weeks before and after 2020-06-15
+| before_1506 |	after_1506 | absolute_change | percentage_change |
+|---|---|---|---|
+| 6721008962 |	6700563473 | 	20445489	| 0.3042026742650845 |
+After the change, total sales over the following 4 weeks decreased by 20445489, representing a 0.3042% decline compared to the previous 4 weeks. No significant short-term risk
+
 ### 2. What about the entire 12 weeks before and after?
 ```sql
 
