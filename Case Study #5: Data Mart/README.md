@@ -225,8 +225,14 @@ Using this analysis approach - answer the following questions:
 
 ### 1. What is the total sales for the 4 weeks before and after 2020-06-15? What is the growth or reduction rate in actual values and percentage of sales?
 ```sql
-
+SELECT
+  SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END) AS before_1506
+  ,SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) AS after_1506
+FROM clean_data
 ```
+| before_1506 |	after_1506 |
+|---|---|
+| 6721008962 |	6700563473 |
 ### 2. What about the entire 12 weeks before and after?
 ```sql
 
