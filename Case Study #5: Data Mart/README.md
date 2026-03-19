@@ -357,11 +357,6 @@ The unknown demographic group showed the largest decline, while Families experie
 Guest customers recorded the highest percentage decline, while Existing customers contributed the largest absolute sales loss. In contrast, New customers showed slight growth, indicating that the business still attracted new demand after the change. The business should focus on understanding why guest and existing customers reduced spending after the change, while maintaining strategies that continue attracting new customers.
 
 ### 6. Conclusion 📘
-Overall, the 12-week post-change analysis shows that the sales decline in 2020 was concentrated in specific business segments rather than across the entire business. Retail, Oceania, and Asia experienced the most noticeable negative impact, while unknown customer segments consistently recorded the largest declines across multiple dimensions. Guest and Existing customers also reduced spending, whereas New customers showed slight growth. These patterns suggest that the packaging change may have affected existing purchasing behavior more than new customer acquisition, highlighting the need for deeper investigation into customer segmentation and regional performance.
-
-
-
-
-
+The 12-week comparison before and after the packaging change indicates that overall sales in 2020 declined by 2.14%, suggesting a measurable but moderate negative impact. The decline was mainly driven by Retail, while Shopify continued to grow, indicating that offline channels were more affected than digital sales. Regionally, Oceania and Asia recorded the largest decreases, whereas Europe showed positive growth. Across customer segments, unknown groups consistently showed the strongest decline, while Guest and Existing customers reduced spending, but New customers still increased slightly. Overall, the results suggest that the packaging change may have influenced purchasing behavior in specific business areas, although the impact was not consistent enough to conclude that packaging alone was the sole cause of the sales decline.
 
 
