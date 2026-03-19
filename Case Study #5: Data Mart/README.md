@@ -241,8 +241,20 @@ After the change, total sales over the following 4 weeks decreased by 20445489, 
 
 ### 2. What about the entire 12 weeks before and after?
 ```sql
-
+SELECT
+  SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) AS before_1506
+  ,SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS after_1506
+  ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) - SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS absolute_change
+  ,100 - (100.0 * SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) / SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END)) AS percentage_change
+FROM clean_data
 ```
+Total sales for the 12 weeks before and after 2020-06-15
+| before_1506 | after_1506 | absolute_change | percentage_change |
+|---|---|---|---|
+20406221861 | 20337412366 | 68809495 | 0.3371986028021554
+
+Over the 12-week period after the change, total sales decreased by 68,809,495, equivalent to a 0.34% decline compared to the 12 weeks before the change. This suggests the packaging update had only a minimal impact on overall sales. No significant business risk detected
+
 ### 3. How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
 ```sql
 
