@@ -236,7 +236,7 @@ WHERE calendar_year = '2020';
 Total sales for the 4 weeks before and after 2020-06-15
 | before_1506 |	after_1506 | absolute_change | percentage_change |
 |---|---|---|---|
-| 2345878357 |	2318994169 |	26884188 |	1.1460179902243755 |
+| 2,345,878,357 |	2,318,994,169 |	26,884,188 |	1.1460179902243755 |
 
 In the 4 weeks after the change, total sales decreased by 26,884,188, equivalent to a 1.15% decline compared to the previous 4 weeks. Short-term impact exists, but no strong long-term risk detected
 
@@ -253,7 +253,7 @@ WHERE calendar_year = '2020';
 Total sales for the 12 weeks before and after 2020-06-15
 | before_1506 | after_1506 | absolute_change | percentage_change |
 |---|---|---|---|
-| 7126273147 |	6973947753 |	152325394 |	2.1375183192932417 |
+| 712,6273,147 |	697,3947,753 |	152,325,394 |	2.1375183192932417 |
 
 Over the 12-week period after the change, total sales decreased by 152,325,394, representing a 2.14% decline compared to the previous 12 weeks. Short-term decline became more visible over a longer observation period
 
@@ -277,9 +277,9 @@ ORDER BY calendar_year;
 
 | calendar_year |	before_12w |	after_12w |	absolute_change |	percentage_change |
 |---|---|---|---|---|
-| 2018 |	6396562317 |	6500818510 |	-104256193 |	-1.6298784852438732 |
-| 2019 |	6883386397 |	6862646103 |	20740294 |	0.3013094544429365 |
-| 2020 |	7126273147 |	6973947753 |	152325394 |	2.1375183192932417 |
+| 2018 |	6,396,562,317 |	6,500,818,510 |	-104,256,193 |	-1.6298784852438732 |
+| 2019 |	6,883,386,397 |	6,862,646,103 |	20,740,294 |	0.3013094544429365 |
+| 2020 |	7,126,273,147 |	6,973,947,753 |	15,2325,394 |	2.1375183192932417 |
 
 Compared with previous years, 2020 recorded the largest decline in sales after 15 June, with a 2.14% decrease. In contrast, sales increased by 1.63% in 2018 and only slightly declined by 0.30% in 2019. This suggests that the 2020 packaging change may have contributed to a more noticeable negative impact on sales performance.
 
@@ -294,8 +294,7 @@ Which areas of the business have the highest negative impact in sales metrics pe
 
 Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
 
-### 1. Region
-🤓 Okay! Let start with "region"
+### 1. Region 🌏
 ```sql
 SELECT
   region
@@ -321,4 +320,36 @@ GROUP BY 1:
 
 Oceania recorded the largest absolute sales decline, while Asia showed the highest percentage decrease among major markets. Europe was the only region with positive growth during the post-change period.
 
-### 2. Platform
+### 2. Platform 🌐
+As Section D is primarily about business interpretation, I did not repeat similar SQL queries for every dimension, since the logic remains the same by replacing `region` with the other categories. The focus is therefore placed on analyzing the results and extracting meaningful business insights.
+| Platform | Before Change | After Change | Absolute Change | Percentage Change (%) |
+|----------|--------------:|-------------:|----------------:|----------------------:|
+| Retail | 6,906,861,113 | 6,738,777,279 | 168,083,834 | 2.43 |
+| Shopify | 219,412,034 | 235,170,474 | -15,758,440 | -7.18 |
+
+Retail experienced a noticeable sales decline after the change, while Shopify recorded positive growth. This suggests that the negative impact was concentrated in offline sales channels rather than digital channels.
+
+### 3. Age_band ⏳
+| Age Band | Before Change | After Change | Absolute Change | Percentage Change (%) |
+|----------|--------------:|-------------:|----------------:|----------------------:|
+| Middle Aged | 1,164,847,640 | 1,141,853,348 | 22,994,292 | 1.97 |
+| Retirees | 2,395,264,515 | 2,365,714,994 | 29,549,521 | 1.23 |
+| Young Adults | 801,806,528 | 794,417,968 | 7,388,560 | 0.92 |
+| Unknown | 2,764,354,464 | 2,671,961,443 | 92,393,021 | 3.34 |
+
+The unknown age segment recorded the largest decline both in absolute value and percentage terms, suggesting that unclassified customer groups contributed most to the overall sales drop. Among identified age groups, Middle Aged customers experienced the strongest decline. Improving customer age classification may help explain why the unknown segment shows the largest decline and support more accurate future analysis.
+
+### 4. Demographic 👥
+| Demographic | Before Change | After Change | Absolute Change | Percentage Change (%) |
+|-------------|--------------:|-------------:|----------------:|----------------------:|
+| Couples | 2,033,589,643 | 2,015,977,285 | 17,612,358 | 0.87 |
+| Families | 2,328,329,040 | 2,286,009,025 | 42,320,015 | 1.82 |
+| Unknown | 2,764,354,464 | 2,671,961,443 | 92,393,021 | 3.34 |
+
+The unknown demographic group showed the largest decline, while Families experienced a noticeably larger drop than Couples. This suggests that family-oriented customers may have been more affected during the post-change period. Further investigation should focus on family-oriented purchasing behavior, as this segment contributed more to the decline among clearly identified customer groups.
+
+
+
+
+
+
