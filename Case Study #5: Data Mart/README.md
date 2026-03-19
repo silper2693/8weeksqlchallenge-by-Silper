@@ -168,7 +168,7 @@ SELECT
 FROM clean_data
 WHERE platform = 'Retail'
 GROUP BY 1
-ORDER BY 2 DESC
+ORDER BY 2 DESC;
 ```
 First row is 'unknown' so second row is 'F3'. Retirees and Families is top contributor
 ### 9. Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
