@@ -294,7 +294,7 @@ Which areas of the business have the highest negative impact in sales metrics pe
 
 Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
 
-I will go with "region" first:
+🤓 Okay! Let start with "region"
 ```sql
 SELECT
   region
