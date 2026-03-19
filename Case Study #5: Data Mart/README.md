@@ -294,3 +294,26 @@ Which areas of the business have the highest negative impact in sales metrics pe
 
 Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
 
+I will go with "region" first:
+```sql
+SELECT
+  region
+  ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) AS before_change
+  ,SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS after_change
+  ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) - SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS absolute_change
+  ,100 - (100.0 * SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) / SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END)
+) AS percentage_change
+FROM clean_data
+WHERE calendar_year = '2020'
+GROUP BY 1:
+```
+
+| Region | Before Change | After Change | Absolute Change | Percentage Change (%) |
+|--------|--------------:|-------------:|----------------:|----------------------:|
+| AFRICA | 1,709,537,105 | 1,700,390,294 | 9,146,811 | 0.54 |
+| ASIA | 1,637,244,466 | 1,583,807,621 | 53,436,845 | 3.26 |
+| CANADA | 426,438,454 | 418,264,441 | 8,174,013 | 1.92 |
+| EUROPE | 108,886,567 | 114,038,959 | -5,152,392 | -4.73 |
+| OCEANIA | 2,354,116,790 | 2,282,795,690 | 71,321,100 | 3.03 |
+| SOUTH AMERICA | 213,036,207 | 208,452,033 | 4,584,174 | 2.15 |
+| USA | 677,013,558 | 666,198,715 | 10,814,843 | 1.60 |
