@@ -307,7 +307,6 @@ FROM clean_data
 WHERE calendar_year = '2020'
 GROUP BY 1:
 ```
-
 | Region | Before Change | After Change | Absolute Change | Percentage Change (%) |
 |--------|--------------:|-------------:|----------------:|----------------------:|
 | AFRICA | 1,709,537,105 | 1,700,390,294 | 9,146,811 | 0.54 |
@@ -329,7 +328,7 @@ As Section D is primarily about business interpretation, I did not repeat simila
 
 Retail experienced a noticeable sales decline after the change, while Shopify recorded positive growth. This suggests that the negative impact was concentrated in offline sales channels rather than digital channels.
 
-### 3. Age_band ⏳
+### 3. Age band ⏳
 | Age Band | Before Change | After Change | Absolute Change | Percentage Change (%) |
 |----------|--------------:|-------------:|----------------:|----------------------:|
 | Middle Aged | 1,164,847,640 | 1,141,853,348 | 22,994,292 | 1.97 |
@@ -347,6 +346,19 @@ The unknown age segment recorded the largest decline both in absolute value and 
 | Unknown | 2,764,354,464 | 2,671,961,443 | 92,393,021 | 3.34 |
 
 The unknown demographic group showed the largest decline, while Families experienced a noticeably larger drop than Couples. This suggests that family-oriented customers may have been more affected during the post-change period. Further investigation should focus on family-oriented purchasing behavior, as this segment contributed more to the decline among clearly identified customer groups.
+
+### 5. Customer type 🏷️
+| Customer Type | Before Change | After Change | Absolute Change | Percentage Change (%) |
+|---------------|--------------:|-------------:|----------------:|----------------------:|
+| Existing | 3,690,116,427 | 3,606,243,454 | 83,872,973 | 2.27 |
+| Guest | 2,573,436,301 | 2,496,233,635 | 77,202,666 | 3.00 |
+| New | 862,720,419 | 871,470,664 | -8,750,245 | -1.01 |
+
+Guest customers recorded the highest percentage decline, while Existing customers contributed the largest absolute sales loss. In contrast, New customers showed slight growth, indicating that the business still attracted new demand after the change. The business should focus on understanding why guest and existing customers reduced spending after the change, while maintaining strategies that continue attracting new customers.
+
+### 6. Conclusion 📘
+Overall, the 12-week post-change analysis shows that the sales decline in 2020 was concentrated in specific business segments rather than across the entire business. Retail, Oceania, and Asia experienced the most noticeable negative impact, while unknown customer segments consistently recorded the largest declines across multiple dimensions. Guest and Existing customers also reduced spending, whereas New customers showed slight growth. These patterns suggest that the packaging change may have affected existing purchasing behavior more than new customer acquisition, highlighting the need for deeper investigation into customer segmentation and regional performance.
+
 
 
 
