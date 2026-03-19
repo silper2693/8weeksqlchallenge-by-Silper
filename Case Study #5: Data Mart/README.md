@@ -294,6 +294,7 @@ Which areas of the business have the highest negative impact in sales metrics pe
 
 Do you have any further recommendations for Danny’s team at Data Mart or any interesting insights based off this analysis?
 
+### 1. Region
 🤓 Okay! Let start with "region"
 ```sql
 SELECT
@@ -317,3 +318,7 @@ GROUP BY 1:
 | OCEANIA | 2,354,116,790 | 2,282,795,690 | 71,321,100 | 3.03 |
 | SOUTH AMERICA | 213,036,207 | 208,452,033 | 4,584,174 | 2.15 |
 | USA | 677,013,558 | 666,198,715 | 10,814,843 | 1.60 |
+
+Oceania recorded the largest absolute sales decline, while Asia showed the highest percentage decrease among major markets. Europe was the only region with positive growth during the post-change period.
+
+### 2. Platform
