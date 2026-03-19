@@ -275,14 +275,13 @@ GROUP BY calendar_year
 ORDER BY calendar_year;
 ```
 
-|calendar_year|	before_12w|	after_12w|	absolute_change|	percentage_change|
+| calendar_year |	before_12w |	after_12w |	absolute_change |	percentage_change |
 |---|---|---|---|
-|2018|	6396562317|	6500818510|	-104256193|	-1.6298784852438732|
-|2019|	6883386397|	6862646103|	20740294|	0.3013094544429365|
-|2020|	7126273147|	6973947753|	152325394|	2.1375183192932417|
+| 2018 |	6396562317 |	6500818510 |	-104256193 |	-1.6298784852438732 |
+| 2019 |	6883386397 |	6862646103 |	20740294 |	0.3013094544429365 |
+| 2020 |	7126273147 |	6973947753 |	152325394 |	2.1375183192932417 |
 
 Compared with previous years, 2020 recorded the largest decline in sales after 15 June, with a 2.14% decrease. In contrast, sales increased by 1.63% in 2018 and only slightly declined by 0.30% in 2019. This suggests that the 2020 packaging change may have contributed to a more noticeable negative impact on sales performance.
-
 
 ## <p align="center">D. Bonus Question.</p>
 
