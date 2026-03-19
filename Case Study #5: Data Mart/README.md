@@ -231,13 +231,14 @@ SELECT
   ,SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END) - SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) AS absolute_change
   ,100 - (100.0 * SUM(CASE WHEN week_number IN ('25', '26', '27', '28') THEN sales ELSE 0 END) / SUM(CASE WHEN week_number IN ('21', '22', '23', '24') THEN sales ELSE 0 END)) AS percentage_change
 FROM clean_data
+WHERE calendar_year = '2020';
 ```
 Total sales for the 4 weeks before and after 2020-06-15
 | before_1506 |	after_1506 | absolute_change | percentage_change |
 |---|---|---|---|
-| 6721008962 |	6700563473 | 	20445489	| 0.3042026742650845 |
+| 2345878357 |	2318994169 |	26884188 |	1.1460179902243755 |
 
-After the change, total sales over the following 4 weeks decreased by 20445489, representing a 0.3042% decline compared to the previous 4 weeks. No significant short-term risk
+In the 4 weeks after the change, total sales decreased by 26,884,188, equivalent to a 1.15% decline compared to the previous 4 weeks. Short-term impact exists, but no strong long-term risk detected
 
 ### 2. What about the entire 12 weeks before and after?
 ```sql
@@ -247,18 +248,41 @@ SELECT
   ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) - SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS absolute_change
   ,100 - (100.0 * SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) / SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END)) AS percentage_change
 FROM clean_data
+WHERE calendar_year = '2020';
 ```
 Total sales for the 12 weeks before and after 2020-06-15
 | before_1506 | after_1506 | absolute_change | percentage_change |
 |---|---|---|---|
-20406221861 | 20337412366 | 68809495 | 0.3371986028021554
+| 7126273147 |	6973947753 |	152325394 |	2.1375183192932417 |
 
-Over the 12-week period after the change, total sales decreased by 68,809,495, equivalent to a 0.34% decline compared to the 12 weeks before the change. This suggests the packaging update had only a minimal impact on overall sales. No significant business risk detected
+Over the 12-week period after the change, total sales decreased by 152,325,394, representing a 2.14% decline compared to the previous 12 weeks. Short-term decline became more visible over a longer observation period
 
 ### 3. How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
 ```sql
-
+SELECT
+  calendar_year
+  ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END) AS before_12w
+  ,SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS after_12w
+  ,SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END)
+    - SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END) AS absolute_change
+  ,100 - (
+    100.0 * SUM(CASE WHEN week_number BETWEEN 25 AND 36 THEN sales ELSE 0 END)
+    / SUM(CASE WHEN week_number BETWEEN 13 AND 24 THEN sales ELSE 0 END)
+  ) AS percentage_change
+FROM clean_data
+WHERE calendar_year IN (2018, 2019, 2020)
+GROUP BY calendar_year
+ORDER BY calendar_year;
 ```
+
+|calendar_year|	before_12w|	after_12w|	absolute_change|	percentage_change|
+|---|---|---|---|
+|2018|	6396562317|	6500818510|	-104256193|	-1.6298784852438732|
+|2019|	6883386397|	6862646103|	20740294|	0.3013094544429365|
+|2020|	7126273147|	6973947753|	152325394|	2.1375183192932417|
+
+Compared with previous years, 2020 recorded the largest decline in sales after 15 June, with a 2.14% decrease. In contrast, sales increased by 1.63% in 2018 and only slightly declined by 0.30% in 2019. This suggests that the 2020 packaging change may have contributed to a more noticeable negative impact on sales performance.
+
 
 ## <p align="center">D. Bonus Question.</p>
 
