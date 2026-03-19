@@ -17,10 +17,10 @@
 - To find out more: Click [here](https://8weeksqlchallenge.com/case-study-6/)
 
 ## 💡 Business Talk
-<p align="justify">The analysis indicates that the introduction of sustainable packaging did not result in a significant negative impact on overall sales. While minor declines were observed in certain segments and platforms, transaction volumes remained largely stable, suggesting consistent customer demand. Variations across regions and platforms imply that differences are more likely driven by implementation factors rather than the packaging change itself. Overall, the initiative appears to be strategically sound, with opportunities for further optimization at the segment level.</p>
+<p align="justify">The main business focus in this case study is understanding where customers drop off across the purchase funnel. A high number of product views without corresponding purchases may indicate weak product conversion, while strong cart activity followed by low purchases suggests friction during checkout. Campaign performance should also be evaluated based on whether impressions and clicks lead to higher purchase conversion rather than traffic alone.</p>
 
 ## 🔗 Entity Relationship Diagram
-<p align="center">No img, sorry</p>
+<p align="center">No img, i'm sorry :(</p>
 
 ## 🧠 Question & Solution
 You can use the embedded [DB Fiddle](https://www.db-fiddle.com/f/jmnwogTsUE8hGqkZv9H7E8/17) to easily access the example datasets and start solving the SQL questions.
