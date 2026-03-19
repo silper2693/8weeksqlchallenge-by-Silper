@@ -23,4 +23,4 @@ Please find the solution links for the case studies below. Simply click on the l
 - [Case Study #3: Foodie-Fi](https://github.com/silper2693/8weeksqlchallenge-by-Silper/blob/main/Case%20Study%20%233%3A%20Foodie-Fi/README.md)
 - [Case Study #4: Data Bank](https://github.com/silper2693/8weeksqlchallenge-by-Silper/blob/main/Case%20Study%20%234%3A%20Data%20Bank/README.md)
 - [Case Study #5: Data Mart](https://github.com/silper2693/8weeksqlchallenge-by-Silper/blob/main/Case%20Study%20%235%3A%20Data%20Mart/README.md)
-
+- [Case Study #6: Clique Bait](https://github.com/silper2693/8weeksqlchallenge-by-Silper/blob/main/Case%20Study%20%236%3A%20Clique%20Bait/README.md)
